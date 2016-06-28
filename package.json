@@ -1,0 +1,24 @@
+{
+  "name": "beer-tracker",
+  "version": "1.0.0",
+  "description": "A tracking app for craft-beer enthusiasts who want to chronicle a journey through the vast world of beer.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/m-rstewart/Beer-Tracker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/m-rstewart/Beer-Tracker/issues"
+  },
+  "homepage": "https://github.com/m-rstewart/Beer-Tracker#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "brewerydb-node": "0.0.1",
+    "express": "^4.14.0"
+  }
+}
