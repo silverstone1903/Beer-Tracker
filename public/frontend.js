@@ -13,15 +13,9 @@ submit.addEventListener('click', function() {
     console.log(searchResults);
     clear(results);
 
-    if(!searchResults) {
-      results.textContent = "Match not found"
-    } else {
-      searchResults.forEach(function(result) {
-        var name = document.createElement('div');
-        name.textContent = result.name + " - " + result.breweries[0].name;
-        results.appendChild(name);
-      })
-    }
+    searchResults.forEach(function(i) {
+      results.appendChild(searchElements(i));
+    });
   })
 })
 
@@ -29,4 +23,18 @@ function clear(area) {
   while(area.firstChild) {
     area.removeChild(area.firstChild);
   }
+}
+
+function searchElements(data) {
+  console.log(data);
+  var container = document.createElement('div');
+  container.setAttribute('class', 'panel panel-default col-xs-12');
+
+  var name = document.createElement('div');
+  name.setAttribute('class', 'panel-body text-center');
+  name.textContent = data.name + " -- " + data.breweries[0].name;
+
+  container.appendChild(name);
+
+  return container;
 }
