@@ -22,6 +22,14 @@
  }
 
  #beer-name {
-   color: rgb(204, 0, 0);
    font-size: 18px;
+   color: rgb(204, 0, 0);
  }
+
+#check-button {
+  position: relative;
+  top: 5px;
+  max-width: 100px;
+  max-height: 100px;
+
+}

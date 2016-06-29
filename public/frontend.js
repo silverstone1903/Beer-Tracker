@@ -42,7 +42,7 @@ function searchElements(data) {
   }
 
   var stats = document.createElement('div');
-  stats.setAttribute('class', 'panel-body col-xs-10');
+  stats.setAttribute('class', 'panel-body col-xs-8');
 
   var name = document.createElement('div');
   name.setAttribute('id', 'beer-name');
@@ -64,8 +64,14 @@ function searchElements(data) {
   abv.textContent = 'ABV Unknown';
 }
 
+  var checkButton = document.createElement('img');
+  checkButton.setAttribute('class', 'panel-body pull-right col-xs-2');
+  checkButton.setAttribute('id', 'check-button');
+  checkButton.src = '/images/check.png';
+
   container.appendChild(image);
   container.appendChild(stats);
+  container.appendChild(checkButton);
   stats.appendChild(name);
   stats.appendChild(style);
   stats.appendChild(abv);
