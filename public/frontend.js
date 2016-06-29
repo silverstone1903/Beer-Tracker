@@ -12,11 +12,16 @@ submit.addEventListener('click', function() {
     var searchResults = JSON.parse(xhr.responseText);
     console.log(searchResults);
     clear(results);
-    searchResults.forEach(function(result) {
-      var name = document.createElement('div');
-      name.textContent = result.name + " - " + result.breweries[0].name;
-      results.appendChild(name);
-    })
+
+    if(!searchResults) {
+      results.textContent = "Match not found"
+    } else {
+      searchResults.forEach(function(result) {
+        var name = document.createElement('div');
+        name.textContent = result.name + " - " + result.breweries[0].name;
+        results.appendChild(name);
+      })
+    }
   })
 })
 

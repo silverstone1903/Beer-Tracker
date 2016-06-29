@@ -3,19 +3,26 @@
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="default.css">
     <title>Beer Tracker</title>
   </head>
   <body>
-    <div class="container-fluid">
-      <form class="form-inline">
-        <label for="search">Search for Beers</label>
-        <div class="form-group">
-          <input type="text" class="form-control" id="beer-search" placeholder="Search for beers or breweries">
+    <nav class="navbar navbar-default" id="top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <img src="/images/beertracker.png">
         </div>
-        <button type="button" class="btn btn-default" id="submit">Submit</button>
-      </form>
+        <form class="navbar-form navbar-right">
+          <div class="form-group" id="search-bar">
+            <input type="text" class="form-control" id="beer-search" placeholder="Enter Beer or Brewery">
+          </div>
+          <button type="button" class="btn btn-default" id="submit">Submit</button>
+        </form>
+      </div>
+    </nav>
+    <div class="container">
+      <div id="results"></div>
     </div>
-    <div id="results"></div>
     <script src="frontend.js"></script>
   </body>
 </html>
