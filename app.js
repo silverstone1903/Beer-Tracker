@@ -15,8 +15,15 @@ app.get('/search/:name', function(req, res) {
   })
 })
 
-app.post('/checkin/:id', function(req, res) {
-  checkIns.push(req.params.id);
+app.post('/checkin/', function(req, res) {
+  var checkIn = {};
+  checkIn.id = req.body.id;
+  checkIn.notes = req.body.notes;
+  checkIn.location = req.body.location;
+  checkIn.date = req.body.date;
+  checkIn.rating = req.body.rating;
+
+  checkIns.push(checkIn);
   console.log(checkIns);
   res.send();
 })
@@ -30,7 +37,5 @@ app.post('/showcheckin', function(req,res) {
   console.log(checkIns);
   res.send();
 })
-
-
 
 app.listen(8080);
