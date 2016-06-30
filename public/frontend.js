@@ -94,15 +94,10 @@ checkIn.addEventListener('click', function(e) {
 
 var submitCheckIn = document.getElementsByClassName('beer-submit')[0];
 submitCheckIn.addEventListener('click', function(e) {
-  var checkInInfo = {};
-  checkInInfo.beer =
-  userInput.notes =
-  userInput.location =
-  userInput.date =
-  userInput.rating =
-
   var xhr = new XMLHttpRequest();
-  xhr.open('GET', '/check/:' + submitCheckIn.getAttribute('id'));
+  var id = submitCheckIn.getAttribute('id');
+  xhr.open('POST', '/checkin/' + id);
+  xhr.send();
 
 })
 
