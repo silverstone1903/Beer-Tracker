@@ -1,24 +1,3 @@
-var submit = document.getElementById('submit');
-submit.addEventListener('click', function() {
-  var beerSearch = document.getElementById('beer-search').value;
-
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', '/search/:' + beerSearch);
-  console.log(beerSearch);
-  xhr.send();
-
-  xhr.addEventListener('load', function() {
-    var results = document.getElementById('results');
-    var searchResults = JSON.parse(xhr.responseText);
-    console.log(searchResults);
-    clear(results);
-
-    searchResults.forEach(function(i) {
-      results.appendChild(searchElements(i));
-    });
-  })
-})
-
 function clear(area) {
   while(area.firstChild) {
     area.removeChild(area.firstChild);
@@ -59,22 +38,60 @@ function searchElements(data) {
   }
 
   if(data.abv) {
-  abv.textContent = data.abv + " %";
+  abv.textContent = data.abv + "% ABV";
 } else {
   abv.textContent = 'ABV Unknown';
 }
 
+  var aTag = document.createElement('a');
+  aTag.setAttribute('data-target', '#myModal');
+  aTag.setAttribute('data-toggle', 'modal');
+
   var checkButton = document.createElement('img');
-  checkButton.setAttribute('class', 'panel-body pull-right col-xs-2');
-  checkButton.setAttribute('id', 'check-button');
+  checkButton.setAttribute('class', 'panel-body pull-right col-xs-2 check-button');
+  checkButton.setAttribute('id', data.id);
   checkButton.src = '/images/check.png';
 
   container.appendChild(image);
   container.appendChild(stats);
-  container.appendChild(checkButton);
+  container.appendChild(aTag);
+  aTag.appendChild(checkButton);
   stats.appendChild(name);
   stats.appendChild(style);
   stats.appendChild(abv);
 
   return container;
 }
+
+var submit = document.getElementById('submit');
+submit.addEventListener('click', function() {
+  var beerSearch = document.getElementById('beer-search').value;
+
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', '/search/:' + beerSearch);
+  console.log(beerSearch);
+  xhr.send();
+
+  xhr.addEventListener('load', function() {
+    var results = document.getElementById('results');
+    var searchResults = JSON.parse(xhr.responseText);
+    console.log(searchResults);
+    clear(results);
+
+    searchResults.forEach(function(i) {
+      results.appendChild(searchElements(i));
+    });
+  })
+})
+
+var checkIn = document.getElementById('results');
+checkIn.addEventListener('click', function(e) {
+  console.log(e.target.getAttribute('id'));
+  if (e.target.getAttribute('class') == 'panel-body pull-right col-xs-2 check-button'){
+
+  }
+})
+
+//TODO When certain check button is clicked, that ID is used to send a request
+//to a beer look-up by ID route and the data object returned will be used to
+//set modal form field info

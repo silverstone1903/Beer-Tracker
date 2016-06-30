@@ -13,6 +13,12 @@ app.get('/search/:name', function(req, res) {
   })
 })
 
+app.get('/check/:id', function(req,res) {
+  brewdb.beer.getById(req.params.id, { withBreweries: 'Y' }, function(err, data) {
+    res.json(data)
+  })
+})
+
 
 
 app.listen(8080);
