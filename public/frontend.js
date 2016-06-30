@@ -86,12 +86,25 @@ submit.addEventListener('click', function() {
 
 var checkIn = document.getElementById('results');
 checkIn.addEventListener('click', function(e) {
-  console.log(e.target.getAttribute('id'));
   if (e.target.getAttribute('class') == 'panel-body pull-right col-xs-2 check-button'){
-
+    var modalSubmit = document.getElementsByClassName('beer-submit')[0];
+    modalSubmit.setAttribute('id', e.target.getAttribute('id'));
   }
 })
 
-//TODO When certain check button is clicked, that ID is used to send a request
-//to a beer look-up by ID route and the data object returned will be used to
-//set modal form field info
+var submitCheckIn = document.getElementsByClassName('beer-submit')[0];
+submitCheckIn.addEventListener('click', function(e) {
+  var checkInInfo = {};
+  checkInInfo.beer =
+  userInput.notes =
+  userInput.location =
+  userInput.date =
+  userInput.rating =
+
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', '/check/:' + submitCheckIn.getAttribute('id'));
+
+})
+
+//TODO When certain check button is clicked, that ID is passed onto modal form submit button.  That button will
+//cause that beer to be stored in check-ins along with user input.
