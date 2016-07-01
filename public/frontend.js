@@ -63,6 +63,51 @@ function searchElements(data) {
   return container;
 }
 
+function recentElements(data) {
+  var container = document.createElement('div');
+  container.setAttribute('class', 'panel panel-default');
+  container.setAttribute('id', 'box-shadow');
+
+  var id = document.createElement('div');
+  id.setAttribute('class', 'panel-heading text-center');
+  id.textContent = data.id;
+
+  var stats = document.createElement('div');
+  stats.setAttribute('class', 'panel-body');
+
+  var statsRow = document.createElement('div');
+  statsRow.setAttribute('class', 'row');
+
+  var rating = document.createElement('div');
+  rating.setAttribute('class', 'col-xs-4 text-center');
+  rating.setAttribute('id', 'rating-recent');
+  rating.textContent = "Your Rating: " + data.rating;
+
+  var location = document.createElement('div');
+  location.setAttribute('class', 'col-xs-4 text-center');
+  location.textContent = "Where: " + data.location;
+
+  var date = document.createElement('div');
+  date.setAttribute('class', 'col-xs-4 text-center');
+  date.setAttribute('id', 'date-recent');
+  date.textContent = "When: " + data.date;
+
+  var notes = document.createElement('div');
+  notes.setAttribute('class', 'panel-footer');
+  notes.textContent = data.notes;
+
+
+  container.appendChild(id);
+  container.appendChild(stats);
+  container.appendChild(notes);
+  stats.appendChild(statsRow);
+  statsRow.appendChild(rating);
+  statsRow.appendChild(location);
+  statsRow.appendChild(date);
+
+  return container;
+}
+
 function swap(next, current) {
   var currentView = document.getElementsByClassName('current');
   currentView[0].classList.add('hide');
@@ -105,19 +150,16 @@ switchToProfile.addEventListener('click', function() {
 
   xhr.addEventListener('load', function(){
     var beers = JSON.parse(xhr.responseText);
-    var profile = document.getElementById('profile');
+    var recentBeers = document.getElementById('recent-beers');
     var beerList = document.createElement('div');
 
-    clear(profile);
+    clear(recentBeers);
 
     beerList.setAttribute('class', 'container');
 
-    beers.forEach(function(beer) {
-      var checkIn = document.createElement('div');
-      checkIn.textContent = beer.id;
-      beerList.appendChild(checkIn);
+    beers.forEach(function(i) {
+      recentBeers.appendChild(recentElements(i));
     })
-    profile.appendChild(beerList);
   })
 })
 
