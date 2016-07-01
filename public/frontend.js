@@ -63,6 +63,16 @@ function searchElements(data) {
   return container;
 }
 
+function swap(next, current) {
+  var currentView = document.getElementsByClassName('current');
+  currentView[0].classList.add('hide');
+  currentView[0].classList.remove('current');
+
+  var newView = document.getElementById(next);
+  newView.classList.remove('hide');
+  newView.classList.add('current');
+}
+
 var submit = document.getElementById('submit');
 submit.addEventListener('click', function() {
   var beerSearch = document.getElementById('beer-search').value;
@@ -81,6 +91,33 @@ submit.addEventListener('click', function() {
     searchResults.forEach(function(i) {
       results.appendChild(searchElements(i));
     });
+  })
+  swap('results', 'current');
+})
+
+var switchToProfile = document.getElementById('profile-link');
+switchToProfile.addEventListener('click', function() {
+  swap('profile', 'current');
+
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', '/profile');
+  xhr.send();
+
+  xhr.addEventListener('load', function(){
+    var beers = JSON.parse(xhr.responseText);
+    var profile = document.getElementById('profile');
+    var beerList = document.createElement('div');
+
+    clear(profile);
+
+    beerList.setAttribute('class', 'container');
+
+    beers.forEach(function(beer) {
+      var checkIn = document.createElement('div');
+      checkIn.textContent = beer.id;
+      beerList.appendChild(checkIn);
+    })
+    profile.appendChild(beerList);
   })
 })
 

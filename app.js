@@ -15,6 +15,10 @@ app.get('/search/:name', function(req, res) {
   })
 })
 
+app.get('/profile', function(req, res) {
+  res.json(checkIns);
+})
+
 app.post('/checkin/', function(req, res) {
   var checkIn = {};
   checkIn.id = req.body.id;
