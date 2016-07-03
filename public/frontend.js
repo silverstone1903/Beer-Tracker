@@ -68,9 +68,9 @@ function recentElements(data) {
   container.setAttribute('class', 'panel panel-default');
   container.setAttribute('id', 'box-shadow');
 
-  var id = document.createElement('div');
-  id.setAttribute('class', 'panel-heading text-center');
-  id.textContent = data.id;
+  var names = document.createElement('div');
+  names.setAttribute('class', 'panel-heading text-center');
+  names.textContent = data.name + ' -- ' + data.brewery;
 
   var stats = document.createElement('div');
   stats.setAttribute('class', 'panel-body');
@@ -97,7 +97,7 @@ function recentElements(data) {
   notes.textContent = data.notes;
 
 
-  container.appendChild(id);
+  container.appendChild(names);
   container.appendChild(stats);
   container.appendChild(notes);
   stats.appendChild(statsRow);
@@ -173,6 +173,7 @@ checkIn.addEventListener('click', function(e) {
 
 var submitCheckIn = document.getElementsByClassName('beer-submit')[0];
 submitCheckIn.addEventListener('click', function(e) {
+  var id = submitCheckIn.getAttribute('id');
   var checkIn = {};
 
   checkIn.id = submitCheckIn.getAttribute('id');
@@ -182,7 +183,7 @@ submitCheckIn.addEventListener('click', function(e) {
   checkIn.rating = document.getElementById('rating').value;
 
   var xhr = new XMLHttpRequest();
-  xhr.open('POST', '/checkin/');
+  xhr.open('POST', '/checkin/' + id);
   xhr.setRequestHeader('Content-type', 'application/json');
   xhr.send(JSON.stringify(checkIn));
 

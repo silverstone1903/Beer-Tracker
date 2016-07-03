@@ -19,16 +19,19 @@ app.get('/profile', function(req, res) {
   res.json(checkIns);
 })
 
-app.post('/checkin/', function(req, res) {
-  var checkIn = {};
-  checkIn.id = req.body.id;
-  checkIn.notes = req.body.notes;
-  checkIn.location = req.body.location;
-  checkIn.date = req.body.date;
-  checkIn.rating = req.body.rating;
+app.post('/checkin/:id', function(req, res) {
+  brewdb.beer.getById(req.params.id, { withBreweries: 'Y' }, function(err, data) {
+    var checkIn = {};
+    checkIn.name = data.name;
+    checkIn.brewery = data.breweries[0].name;
+    checkIn.id = req.body.id;
+    checkIn.notes = req.body.notes;
+    checkIn.location = req.body.location;
+    checkIn.date = req.body.date;
+    checkIn.rating = req.body.rating;
 
-  checkIns.push(checkIn);
-  console.log(checkIns);
+    checkIns.push(checkIn);
+  })
   res.send();
 })
 
