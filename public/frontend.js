@@ -149,10 +149,7 @@ function uniqueCount(data) {
   number.textContent = " " + unique.length;
 }
 
-//Takes input from search bar and sends request to brewdb.  Returned info is then styled
-//on the search results page
-var submit = document.getElementById('submit');
-submit.addEventListener('click', function() {
+function submitSearch() {
   var beerSearch = document.getElementById('beer-search').value;
 
   var xhr = new XMLHttpRequest();
@@ -184,6 +181,17 @@ submit.addEventListener('click', function() {
     noBeerModal.appendChild(noBeer);
   })
   swap('results', 'current');
+}
+
+//Takes input from search bar and sends request to brewdb.  Returned info is then styled
+//on the search results page
+var submit = document.getElementById('submit');
+submit.addEventListener('click', submitSearch);
+$('#search-form').keypress(function(e) {
+  if (e.which == 13) {
+    e.preventDefault();
+    submitSearch();
+  }
 })
 
 //Switches view to profile page when profile link is clicked
