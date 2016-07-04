@@ -121,7 +121,7 @@ function swap(next, current) {
 function totalCount(data) {
   var number = document.getElementById('total-checkins');
   var counter = 0;
-  var update = data.forEach(function(beer) {
+  data.forEach(function(beer) {
     counter++;
   });
 
@@ -129,19 +129,17 @@ function totalCount(data) {
   number.textContent = " " + counter;
 }
 
-// function uniqueCount(data) {
-//   var number = document.getElementById('unique-beers');
-//   var counter = 0;
-//   function onlyUnique(value, index, self) {
-//     return self.index()
-//   }
-//
-//   var update = data.forEach(function(beer) {
-//     if ()
-//   })
-//   number.textContent = "";
-//
-// }
+function uniqueCount(data) {
+  var number = document.getElementById('unique-beers');
+  var unique = [];
+  data.forEach(function(i) {
+    if (unique.indexOf(i.name) == -1) {
+      unique.push(i.name);
+    }
+  });
+  number.textContent = "";
+  number.textContent = " " + unique.length;
+}
 
 var submit = document.getElementById('submit');
 submit.addEventListener('click', function() {
@@ -180,7 +178,7 @@ switchToProfile.addEventListener('click', function() {
 
     clear(recentBeers);
     totalCount(beers);
-    // uniqueCount(beers);
+    uniqueCount(beers);
 
     beerList.setAttribute('class', 'container');
 
