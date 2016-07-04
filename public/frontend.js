@@ -43,6 +43,7 @@ function searchElements(data) {
   abv.textContent = 'ABV Unknown';
 }
 
+  //Allows check image to be used as button
   var aTag = document.createElement('a');
   aTag.setAttribute('data-target', '#myModal');
   aTag.setAttribute('data-toggle', 'modal');
@@ -63,6 +64,7 @@ function searchElements(data) {
   return container;
 }
 
+//Creates the DOM layout for the recent beers on profile page
 function recentElements(data) {
   var container = document.createElement('div');
   container.setAttribute('class', 'panel panel-default');
@@ -118,6 +120,7 @@ function swap(next, current) {
   newView.classList.add('current');
 }
 
+//Provides number of total beers checked-in on profile
 function totalCount(data) {
   var number = document.getElementById('total-checkins');
   var counter = 0;
@@ -129,6 +132,7 @@ function totalCount(data) {
   number.textContent = " " + counter;
 }
 
+//Provides number of unique beers checked-in
 function uniqueCount(data) {
   var number = document.getElementById('unique-beers');
   var unique = [];
@@ -159,6 +163,13 @@ submit.addEventListener('click', function() {
     searchResults.forEach(function(i) {
       results.appendChild(searchElements(i));
     });
+
+    var noBeer = document.createElement('button');
+    noBeer.setAttribute('type', 'button');
+    noBeer.setAttribute('class', 'btn btn-warning btn-lg btn-block');
+    noBeer.textContent = "Don\'t see your beer?  Add it!";
+
+    results.appendChild(noBeer);
   })
   swap('results', 'current');
 })
