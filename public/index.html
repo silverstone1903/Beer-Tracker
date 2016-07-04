@@ -27,7 +27,7 @@
     <div class="container hide" id="profile">
       <div class="row">
         <div class="col-xs-4" id="profile-side">
-          <div class="panel panel-default">
+          <div class="panel panel-default box-shadow">
             <div class="panel-heading">
               Welcome User
             </div>
@@ -96,7 +96,7 @@
             <h4 class="modal-title" id="myModalLabel">Add a Beer</h4>
           </div>
           <div class="modal-body">
-            <form id="checkin-form">
+            <form id="add-form">
               <div class="form-group">
                 <label for="name">Beer Name:</label>
                 <input type="text" class="form-control" id="addName">
@@ -107,19 +107,19 @@
               </div>
               <div class="form-group">
                 <label for="tasting-notes">Tasting Notes</label>
-                <textarea class="form-control" id="tasting-notes" rows="5" placeholder="Aroma, Mouthfeel, Taste, etc..."></textarea>
+                <textarea class="form-control" id="addNotes" rows="5" placeholder="Aroma, Mouthfeel, Taste, etc..."></textarea>
               </div>
               <div class="form-group">
                 <label for="location">Location</label>
-                <input type="text" class="form-control" id="location">
+                <input type="text" class="form-control" id="addLocation">
               </div>
               <div class="form-group">
                 <label for="date">Date:</label>
-                <input type="text" class="form-control" id="date" placeholder="mm/dd/yy">
+                <input type="text" class="form-control" id="addDate" placeholder="mm/dd/yy">
               </div>
               <div class="form-group">
                 <label for="rating">Your Rating:</label>
-                <select name="rating" id="rating">
+                <select name="rating" id="addRating">
                   <option value="1">1</option>
                   <option value="1.5">1.5</option>
                   <option value="2">2</option>

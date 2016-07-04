@@ -39,6 +39,21 @@ app.post('/checkin/:id', function(req, res) {
   res.send();
 })
 
+app.post('/add', function(req, res) {
+  var checkIn = {};
+  checkIn.name = req.body.name;
+  checkIn.brewery = req.body.brewery;
+  checkIn.id = req.body.id;
+  checkIn.notes = req.body.notes;
+  checkIn.location = req.body.location;
+  checkIn.date = req.body.date;
+  checkIn.rating = req.body.rating;
+
+  checkIns.push(checkIn);
+
+  res.send();
+})
+
 //Test route
 app.post('/clearCheckIn', function(req, res) {
   checkIns = [];

@@ -71,8 +71,7 @@ function searchElements(data) {
 //Creates the DOM layout for the recent beers on profile page
 function recentElements(data) {
   var container = document.createElement('div');
-  container.setAttribute('class', 'panel panel-default');
-  container.setAttribute('id', 'box-shadow');
+  container.setAttribute('class', 'panel panel-default box-shadow');
 
   var names = document.createElement('div');
   names.setAttribute('class', 'panel-heading text-center');
@@ -244,7 +243,24 @@ submitCheckIn.addEventListener('click', function(e) {
   })
 })
 
-// var addBeer = document.getElementById('addBeer');
-// addBeer.addEventListener('click', function() {
-//
-// })
+var addBeer = document.getElementById('addBeer');
+addBeer.addEventListener('click', function() {
+  var addedBeer = {};
+
+  addedBeer.name = document.getElementById('addName').value;
+  addedBeer.brewery = document.getElementById('addBrewery').value;
+  addedBeer.id = Math.floor(Math.random() * 10001);
+  addedBeer.notes = document.getElementById('addNotes').value;
+  addedBeer.location = document.getElementById('addLocation').value;
+  addedBeer.date = document.getElementById('addDate').value;
+  addedBeer.rating = document.getElementById('addRating').value;
+
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', '/add');
+  xhr.setRequestHeader('Content-type', 'application/json');
+  xhr.send(JSON.stringify(addedBeer));
+
+  xhr.addEventListener('load', function() {
+    document.getElementById('add-form').reset();
+  })
+})
