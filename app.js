@@ -22,7 +22,7 @@ app.get('/profile', function(req, res) {
   res.json(checkIns);
 })
 
-//Takes in check-in info from the user and transfers it to checkIns
+//Takes in check-in info from the user and uses beer ID to get beer and brewrey name from brewdb
 app.post('/checkin/:id', function(req, res) {
   brewdb.beer.getById(req.params.id, { withBreweries: 'Y' }, function(err, data) {
     var checkIn = {};

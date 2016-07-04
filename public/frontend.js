@@ -1,9 +1,11 @@
+//Clears a certain area so that fresh data can be drawn
 function clear(area) {
   while(area.firstChild) {
     area.removeChild(area.firstChild);
   }
 }
 
+//Creates the DOM elements for each search result
 function searchElements(data) {
   console.log(data);
   var container = document.createElement('div');
@@ -31,12 +33,14 @@ function searchElements(data) {
 
   name.textContent = data.name + " -- " + data.breweries[0].name;
 
+  //Accounts for missing styles in brewdb
   if(data.style) {
     style.textContent = data.style.name;
   } else {
     style.textContent = 'Style Unknown';
   }
 
+  //Accounts for missing abv's in brewdb
   if(data.abv) {
   abv.textContent = data.abv + "% ABV";
 } else {
@@ -110,6 +114,7 @@ function recentElements(data) {
   return container;
 }
 
+//Toggles current page view
 function swap(next, current) {
   var currentView = document.getElementsByClassName('current');
   currentView[0].classList.add('hide');
@@ -145,6 +150,8 @@ function uniqueCount(data) {
   number.textContent = " " + unique.length;
 }
 
+//Takes input from search bar and sends request to brewdb.  Returned info is then styled
+//on the search results page
 var submit = document.getElementById('submit');
 submit.addEventListener('click', function() {
   var beerSearch = document.getElementById('beer-search').value;
@@ -164,16 +171,23 @@ submit.addEventListener('click', function() {
       results.appendChild(searchElements(i));
     });
 
+    var noBeerModal = document.createElement('a');
+    noBeerModal.setAttribute('data-target', '#addModal');
+    noBeerModal.setAttribute('data-toggle', 'modal');
+
     var noBeer = document.createElement('button');
     noBeer.setAttribute('type', 'button');
     noBeer.setAttribute('class', 'btn btn-warning btn-lg btn-block');
+    noBeer.setAttribute('id', 'no-beer');
     noBeer.textContent = "Don\'t see your beer?  Add it!";
 
-    results.appendChild(noBeer);
+    results.appendChild(noBeerModal);
+    noBeerModal.appendChild(noBeer);
   })
   swap('results', 'current');
 })
 
+//Switches view to profile page when profile link is clicked
 var switchToProfile = document.getElementById('profile-link');
 switchToProfile.addEventListener('click', function() {
   swap('profile', 'current');
@@ -199,6 +213,7 @@ switchToProfile.addEventListener('click', function() {
   })
 })
 
+//Passes the ID of that particular beer to the modal's submit button
 var checkIn = document.getElementById('results');
 checkIn.addEventListener('click', function(e) {
   if (e.target.getAttribute('class') == 'panel-body pull-right col-xs-2 check-button'){
@@ -207,6 +222,7 @@ checkIn.addEventListener('click', function(e) {
   }
 })
 
+//Sends the beer ID and user input to the checkin route
 var submitCheckIn = document.getElementsByClassName('beer-submit')[0];
 submitCheckIn.addEventListener('click', function(e) {
   var id = submitCheckIn.getAttribute('id');
@@ -227,3 +243,8 @@ submitCheckIn.addEventListener('click', function(e) {
     document.getElementById('checkin-form').reset();
   })
 })
+
+// var addBeer = document.getElementById('addBeer');
+// addBeer.addEventListener('click', function() {
+//
+// })
