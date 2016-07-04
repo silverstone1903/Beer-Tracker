@@ -118,6 +118,31 @@ function swap(next, current) {
   newView.classList.add('current');
 }
 
+function totalCount(data) {
+  var number = document.getElementById('total-checkins');
+  var counter = 0;
+  var update = data.forEach(function(beer) {
+    counter++;
+  });
+
+  number.textContent = "";
+  number.textContent = " " + counter;
+}
+
+// function uniqueCount(data) {
+//   var number = document.getElementById('unique-beers');
+//   var counter = 0;
+//   function onlyUnique(value, index, self) {
+//     return self.index()
+//   }
+//
+//   var update = data.forEach(function(beer) {
+//     if ()
+//   })
+//   number.textContent = "";
+//
+// }
+
 var submit = document.getElementById('submit');
 submit.addEventListener('click', function() {
   var beerSearch = document.getElementById('beer-search').value;
@@ -154,6 +179,8 @@ switchToProfile.addEventListener('click', function() {
     var beerList = document.createElement('div');
 
     clear(recentBeers);
+    totalCount(beers);
+    // uniqueCount(beers);
 
     beerList.setAttribute('class', 'container');
 
