@@ -28,6 +28,7 @@ app.post('/checkin/:id', function(req, res) {
     var checkIn = {};
     checkIn.name = data.name;
     checkIn.brewery = data.breweries[0].name;
+    checkIn.style = data.style.name;
     checkIn.id = req.body.id;
     checkIn.notes = req.body.notes;
     checkIn.location = req.body.location;

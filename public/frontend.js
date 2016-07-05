@@ -75,7 +75,12 @@ function recentElements(data) {
 
   var names = document.createElement('div');
   names.setAttribute('class', 'panel-heading text-center');
+  names.setAttribute('id', 'beer-name');
   names.textContent = data.name + ' -- ' + data.brewery;
+
+  var style = document.createElement('div');
+  style.setAttribute('id', 'recent-style');
+  style.textContent = data.style;
 
   var stats = document.createElement('div');
   stats.setAttribute('class', 'panel-body');
@@ -109,6 +114,7 @@ function recentElements(data) {
   statsRow.appendChild(rating);
   statsRow.appendChild(location);
   statsRow.appendChild(date);
+  names.appendChild(style);
 
   return container;
 }
