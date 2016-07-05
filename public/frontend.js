@@ -1,3 +1,29 @@
+//Chart functionality
+google.charts.load('current', {packages: ['corechart']});
+// google.charts.setOnLoadCallback(drawChart);
+
+function drawChart() {
+  $.ajax({
+    url: "profile",
+    method: "GET",
+    dataType: "json",
+    success: function(json) {
+      console.log(json);
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', 'style');
+      data.addColumn('number', 'ID');
+
+      json.forEach(function(i) {
+        data.addRow([i.style, 1]);
+      });
+
+      var chart = new google.visualization.BarChart(document.getElementById('chart'));
+      chart.draw(data, null);
+    }
+  })
+}
+
+
 //Clears a certain area so that fresh data can be drawn
 function clear(area) {
   while(area.firstChild) {
@@ -204,6 +230,7 @@ $('#search-form').keypress(function(e) {
 var switchToProfile = document.getElementById('profile-link');
 switchToProfile.addEventListener('click', function() {
   swap('profile', 'current');
+  drawChart();
 
   var xhr = new XMLHttpRequest();
   xhr.open('GET', '/profile');
