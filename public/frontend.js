@@ -8,21 +8,54 @@ function drawChart() {
     method: "GET",
     dataType: "json",
     success: function(json) {
-      console.log(json);
       var data = new google.visualization.DataTable();
-      data.addColumn('string', 'style');
-      data.addColumn('number', 'ID');
+      data.addColumn('string', 'Style');
+      data.addColumn('number', 'Beers');
+      data.addColumn({ type: 'string', role: 'style'});
 
-      json.forEach(function(i) {
-        data.addRow([i.style, 1]);
-      });
+      var styles = [];
+      var unique = [];
 
+
+      function randomColor() {
+        var letters = '0123456789ABCDEF'.split('');
+        var color = '#';
+        for (var i = 0; i < 6; i++ ) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+      }
+
+      //take only the styles from the json data and store them in array styles
+      json.forEach(function(beer) {
+        styles.push(beer.style);
+      })
+
+      //in array styles, sort elements by name and how many times they occur
+      var sorted = _.countBy(styles, _.identity);
+      console.log(sorted);
+
+      //turn data in var sorted into an acceptable format for google dataTable
+      for (var prop in sorted) {
+        var styleAndCount = {};
+        styleAndCount.style = prop;
+        styleAndCount.count = sorted[prop];
+        unique.push(styleAndCount);
+      }
+
+      for (var i = 0; i < unique.length; i++) {
+        data.addRow([unique[i].style, unique[i].count, randomColor()]);
+      }
+
+      var options = {
+        'title': 'Your Beers by Style',
+        'legend': {position: 'none'}
+      };
       var chart = new google.visualization.BarChart(document.getElementById('chart'));
-      chart.draw(data, null);
+      chart.draw(data, options);
     }
   })
 }
-
 
 //Clears a certain area so that fresh data can be drawn
 function clear(area) {
