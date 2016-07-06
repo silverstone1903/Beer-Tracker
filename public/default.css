@@ -1,25 +1,33 @@
- #beer-search {
-   position: relative;
-   top: 10px;
-   width:430px !important;
- }
+body {
+  background-image: url("images/beer.jpg");
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+  z-index: -1;
+}
 
- #submit {
-   position: relative;
-   top: 10px;
- }
+#beer-search {
+  position: relative;
+  top: 10px;
+  width:430px !important;
+}
 
- #search-panel { background-color: rgb(242, 242, 242); }
+#submit {
+  position: relative;
+  top: 10px;
+}
 
- #beer-image {
-   max-width: 100px;
-   max-width: 100px;
- }
+#search-panel { background-color: rgb(242, 242, 242); }
 
- #beer-name {
-   font-size: 18px;
-   color: rgb(204, 0, 0);
- }
+#beer-image {
+  max-width: 100px;
+  max-width: 100px;
+}
+
+#beer-name {
+  font-size: 18px;
+  color: rgb(204, 0, 0);
+}
 
 .check-button {
   position: relative;
