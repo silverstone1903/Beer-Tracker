@@ -2,7 +2,7 @@
 google.charts.load('current', {packages: ['corechart']});
 // google.charts.setOnLoadCallback(drawChart);
 
-function drawChart() {
+function drawStyleChart() {
   $.ajax({
     url: "profile",
     method: "GET",
@@ -51,7 +51,62 @@ function drawChart() {
         'title': 'Your Beers by Style',
         'legend': {position: 'none'}
       };
-      var chart = new google.visualization.BarChart(document.getElementById('chart'));
+      var chart = new google.visualization.BarChart(document.getElementById('bar-chart'));
+      chart.draw(data, options);
+    }
+  })
+}
+
+function drawBreweryChart() {
+  $.ajax({
+    url: "profile",
+    method: "GET",
+    dataType: "json",
+    success: function(json) {
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', 'Brewery');
+      data.addColumn('number', 'Beers');
+      data.addColumn({ type: 'string', role: 'style'});
+
+      var breweries = [];
+      var unique = [];
+
+
+      function randomColor() {
+        var letters = '0123456789ABCDEF'.split('');
+        var color = '#';
+        for (var i = 0; i < 6; i++ ) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+      }
+
+      //take only the styles from the json data and store them in array breweries
+      json.forEach(function(beer) {
+        console.log(beer.brewery);
+        breweries.push(beer.brewery);
+      })
+
+      //in array breweries, sort elements by name and how many times they occur
+      var sorted = _.countBy(breweries, _.identity);
+
+      //turn data in var sorted into an acceptable format for google dataTable
+      for (var prop in sorted) {
+        var breweryCount = {};
+        breweryCount.brewery = prop;
+        breweryCount.count = sorted[prop];
+        unique.push(breweryCount);
+      }
+
+      for (var i = 0; i < unique.length; i++) {
+        data.addRow([unique[i].brewery, unique[i].count, randomColor()]);
+      }
+
+      var options = {
+        'title': 'Your Beers by Brewery',
+        'legend': {position: 'none'}
+      };
+      var chart = new google.visualization.PieChart(document.getElementById('pie-chart'));
       chart.draw(data, options);
     }
   })
@@ -263,7 +318,6 @@ $('#search-form').keypress(function(e) {
 var switchToProfile = document.getElementById('profile-link');
 switchToProfile.addEventListener('click', function() {
   swap('profile', 'current');
-  drawChart();
 
   var xhr = new XMLHttpRequest();
   xhr.open('GET', '/profile');
@@ -285,6 +339,15 @@ switchToProfile.addEventListener('click', function() {
     })
   })
 })
+
+var switchToStats = document.getElementById('stats-link');
+switchToStats.addEventListener('click', function() {
+  swap('user-stats', 'current');
+  drawStyleChart();
+  drawBreweryChart();
+})
+
+
 
 //Passes the ID of that particular beer to the modal's submit button
 var checkIn = document.getElementById('results');
