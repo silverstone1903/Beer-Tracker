@@ -280,13 +280,6 @@ function submitSearch() {
   xhr.addEventListener('load', function() {
     var results = document.getElementById('results');
     var searchResults = JSON.parse(xhr.responseText);
-    console.log(searchResults);
-    clear(results);
-
-    searchResults.forEach(function(i) {
-      results.appendChild(searchElements(i));
-    });
-
     var noBeerModal = document.createElement('a');
     noBeerModal.setAttribute('data-target', '#addModal');
     noBeerModal.setAttribute('data-toggle', 'modal');
@@ -296,6 +289,19 @@ function submitSearch() {
     noBeer.setAttribute('class', 'btn btn-warning btn-lg btn-block');
     noBeer.setAttribute('id', 'no-beer');
     noBeer.textContent = "Don\'t see your beer?  Add it!";
+
+    console.log(searchResults);
+    clear(results);
+
+    if(searchResults == null) {
+      results.appendChild(noBeerModal);
+    } else {
+      searchResults.forEach(function(i) {
+        results.appendChild(searchElements(i));
+      });
+    }
+
+
 
     results.appendChild(noBeerModal);
     noBeerModal.appendChild(noBeer);
