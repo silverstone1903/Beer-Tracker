@@ -44,6 +44,14 @@ body {
   cursor: pointer;
 }
 
+#stats-link {
+  position: relative;
+  top: 12px;
+  left: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
 .stat {
   display:inline-block;
 }
