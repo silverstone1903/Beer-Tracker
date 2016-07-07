@@ -45,6 +45,7 @@ app.post('/add', function(req, res) {
   var checkIn = {};
   checkIn.name = req.body.name;
   checkIn.brewery = req.body.brewery;
+  checkIn.style = req.body.style;
   checkIn.id = req.body.id;
   checkIn.notes = req.body.notes;
   checkIn.location = req.body.location;

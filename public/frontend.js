@@ -323,6 +323,7 @@ addBeer.addEventListener('click', function() {
 
   addedBeer.name = document.getElementById('addName').value;
   addedBeer.brewery = document.getElementById('addBrewery').value;
+  addedBeer.style = document.getElementById('addStyle').value;
   addedBeer.id = Math.floor(Math.random() * 10001);
   addedBeer.notes = document.getElementById('addNotes').value;
   addedBeer.location = document.getElementById('addLocation').value;
