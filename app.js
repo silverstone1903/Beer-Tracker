@@ -7,7 +7,7 @@ var app = express();
 //Stores user check-in info
 var checkIns = [];
 
-app.use(express.static('public'));
+app.use(express.static('./public'));
 app.use(bodyParser.json());
 
 //Takes the input from the user's search and runs it through the brewdb database
@@ -55,12 +55,6 @@ app.post('/add', function(req, res) {
 
   checkIns.push(checkIn);
 
-  res.send();
-});
-
-//Test route
-app.post('/clearCheckIn', function(req, res) {
-  checkIns = [];
   res.send();
 });
 
