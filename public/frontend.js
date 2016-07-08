@@ -16,7 +16,6 @@ function drawStyleChart() {
       var styles = [];
       var unique = [];
 
-
       function randomColor() {
         var letters = '0123456789ABCDEF'.split('');
         var color = '#';
@@ -29,11 +28,10 @@ function drawStyleChart() {
       //take only the styles from the json data and store them in array styles
       json.forEach(function(beer) {
         styles.push(beer.style);
-      })
+      });
 
       //in array styles, sort elements by name and how many times they occur
       var sorted = _.countBy(styles, _.identity);
-      console.log(sorted);
 
       //turn data in var sorted into an acceptable format for google dataTable
       for (var prop in sorted) {
@@ -49,12 +47,12 @@ function drawStyleChart() {
 
       var options = {
         'title': 'Your Beers by Style',
-        'legend': {position: 'none'}
+        legend: {position: 'none'}
       };
       var chart = new google.visualization.BarChart(document.getElementById('bar-chart'));
       chart.draw(data, options);
     }
-  })
+  });
 }
 
 function drawBreweryChart() {
@@ -71,7 +69,6 @@ function drawBreweryChart() {
       var breweries = [];
       var unique = [];
 
-
       function randomColor() {
         var letters = '0123456789ABCDEF'.split('');
         var color = '#';
@@ -81,11 +78,10 @@ function drawBreweryChart() {
         return color;
       }
 
-      //take only the styles from the json data and store them in array breweries
+      //take only the breweries from the json data and store them in array breweries
       json.forEach(function(beer) {
-        console.log(beer.brewery);
         breweries.push(beer.brewery);
-      })
+      });
 
       //in array breweries, sort elements by name and how many times they occur
       var sorted = _.countBy(breweries, _.identity);
@@ -103,13 +99,14 @@ function drawBreweryChart() {
       }
 
       var options = {
-        'title': 'Your Beers by Brewery',
-        'legend': {position: 'none'}
+        title: 'Your Beers by Brewery',
+        legend: {position: 'none'},
       };
+
       var chart = new google.visualization.PieChart(document.getElementById('pie-chart'));
       chart.draw(data, options);
     }
-  })
+  });
 }
 
 //Clears a certain area so that fresh data can be drawn
@@ -121,19 +118,17 @@ function clear(area) {
 
 //Creates the DOM elements for each search result
 function searchElements(data) {
-  console.log(data);
   var container = document.createElement('div');
   container.setAttribute('class', 'panel panel-default col-xs-12');
   container.setAttribute('id', 'search-panel');
 
-
   var image = document.createElement('img');
-  image.setAttribute('class', 'panel-body col-xs-2')
+  image.setAttribute('class', 'panel-body col-xs-2');
   image.setAttribute('id', 'beer-image');
   if(data.labels) {
     image.src = data.labels.icon;
   } else {
-    image.src = '/images/icon-not-found.png'
+    image.src = '/images/icon-not-found.png';
   }
 
   var stats = document.createElement('div');
@@ -156,10 +151,10 @@ function searchElements(data) {
 
   //Accounts for missing abv's in brewdb
   if(data.abv) {
-  abv.textContent = data.abv + "% ABV";
-} else {
-  abv.textContent = 'ABV Unknown';
-}
+    abv.textContent = data.abv + "% ABV";
+  } else {
+    abv.textContent = 'ABV Unknown';
+  }
 
   //Allows check image to be used as button
   var aTag = document.createElement('a');
@@ -274,7 +269,6 @@ function submitSearch() {
 
   var xhr = new XMLHttpRequest();
   xhr.open('GET', '/search/:' + beerSearch);
-  console.log(beerSearch);
   xhr.send();
 
   xhr.addEventListener('load', function() {
@@ -290,22 +284,18 @@ function submitSearch() {
     noBeer.setAttribute('id', 'no-beer');
     noBeer.textContent = "Don\'t see your beer?  Add it!";
 
-    console.log(searchResults);
     clear(results);
 
-    if(searchResults == null) {
+    if(searchResults === null) {
       results.appendChild(noBeerModal);
     } else {
       searchResults.forEach(function(i) {
         results.appendChild(searchElements(i));
       });
     }
-
-
-
     results.appendChild(noBeerModal);
     noBeerModal.appendChild(noBeer);
-  })
+  });
   swap('results', 'current');
 }
 
@@ -318,13 +308,11 @@ $('#search-form').keypress(function(e) {
     e.preventDefault();
     submitSearch();
   }
-})
+});
 
 //Switches view to profile page when profile link is clicked
 var switchToProfile = document.getElementById('profile-link');
 switchToProfile.addEventListener('click', function() {
-  swap('profile', 'current');
-
   var xhr = new XMLHttpRequest();
   xhr.open('GET', '/profile');
   xhr.send();
@@ -342,16 +330,17 @@ switchToProfile.addEventListener('click', function() {
 
     beers.forEach(function(i) {
       recentBeers.appendChild(recentElements(i));
-    })
-  })
-})
+    });
+  });
+  swap('profile', 'current');
+});
 
 var switchToStats = document.getElementById('stats-link');
 switchToStats.addEventListener('click', function() {
-  swap('user-stats', 'current');
   drawStyleChart();
   drawBreweryChart();
-})
+  swap('user-stats', 'current');
+});
 
 
 
@@ -362,7 +351,7 @@ checkIn.addEventListener('click', function(e) {
     var modalSubmit = document.getElementsByClassName('beer-submit')[0];
     modalSubmit.setAttribute('id', e.target.getAttribute('id'));
   }
-})
+});
 
 //Sends the beer ID and user input to the checkin route
 var submitCheckIn = document.getElementsByClassName('beer-submit')[0];
@@ -383,8 +372,8 @@ submitCheckIn.addEventListener('click', function(e) {
 
   xhr.addEventListener('load', function() {
     document.getElementById('checkin-form').reset();
-  })
-})
+  });
+});
 
 var addBeer = document.getElementById('addBeer');
 addBeer.addEventListener('click', function() {
@@ -406,5 +395,5 @@ addBeer.addEventListener('click', function() {
 
   xhr.addEventListener('load', function() {
     document.getElementById('add-form').reset();
-  })
-})
+  });
+});
