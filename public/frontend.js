@@ -109,13 +109,6 @@ function drawBreweryChart() {
   });
 }
 
-//Clears a certain area so that fresh data can be drawn
-function clear(area) {
-  while(area.firstChild) {
-    area.removeChild(area.firstChild);
-  }
-}
-
 //Creates the DOM elements for each search result
 function searchElements(data) {
   var container = document.createElement('div');
@@ -286,7 +279,7 @@ function submitSearch() {
     noBeer.setAttribute('id', 'no-beer');
     noBeer.textContent = "Don\'t see your beer?  Add it!";
 
-    clear(results);
+    $("#results").empty();
 
     if(searchResults === null) {
       results.appendChild(noBeerModal);
@@ -321,14 +314,14 @@ $("#profile-link").click(function() {
     var recentBeers = document.getElementById('recent-beers');
     var beerList = document.createElement('div');
 
-    clear(recentBeers);
+    $("#recent-beers").empty();
     totalCount(beers);
     uniqueCount(beers);
 
     beerList.setAttribute('class', 'container');
 
     beers.forEach(function(i) {
-      recentBeers.appendChild(recentElements(i));
+      $("#recent-beers").append(recentElements(i));
     });
   });
   swap('profile', 'current');
