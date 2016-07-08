@@ -26,7 +26,6 @@ app.get('/profile', function(req, res) {
 app.post('/checkin/:id', function(req, res) {
   brewdb.beer.getById(req.params.id, { withBreweries: 'Y' }, function(err, data) {
     var checkIn = {};
-    console.log(data);
     checkIn.style = data.style.name;
     checkIn.name = data.name;
     checkIn.brewery = data.breweries[0].name;

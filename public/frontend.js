@@ -264,6 +264,8 @@ function uniqueCount(data) {
   number.textContent = " " + unique.length;
 }
 
+//Takes input from search bar and sends request to brewdb.  Returned info is then styled
+//on the search results page
 function submitSearch() {
   var beerSearch = document.getElementById('beer-search').value;
 
@@ -299,10 +301,8 @@ function submitSearch() {
   swap('results', 'current');
 }
 
-//Takes input from search bar and sends request to brewdb.  Returned info is then styled
-//on the search results page
-var submit = document.getElementById('submit');
-submit.addEventListener('click', submitSearch);
+//Allow searches to be submitted with both clicking search button and pressing enter
+$("#submit").click(submitSearch);
 $('#search-form').keypress(function(e) {
   if (e.which == 13) {
     e.preventDefault();
@@ -311,8 +311,7 @@ $('#search-form').keypress(function(e) {
 });
 
 //Switches view to profile page when profile link is clicked
-var switchToProfile = document.getElementById('profile-link');
-switchToProfile.addEventListener('click', function() {
+$("#profile-link").click(function() {
   var xhr = new XMLHttpRequest();
   xhr.open('GET', '/profile');
   xhr.send();
@@ -335,18 +334,15 @@ switchToProfile.addEventListener('click', function() {
   swap('profile', 'current');
 });
 
-var switchToStats = document.getElementById('stats-link');
-switchToStats.addEventListener('click', function() {
+//Switches to stats page when clicked, draws graphs
+$("#stats-link").click(function() {
   drawStyleChart();
   drawBreweryChart();
   swap('user-stats', 'current');
 });
 
-
-
 //Passes the ID of that particular beer to the modal's submit button
-var checkIn = document.getElementById('results');
-checkIn.addEventListener('click', function(e) {
+$("#results").click(function(e) {
   if (e.target.getAttribute('class') == 'panel-body pull-right col-xs-2 check-button'){
     var modalSubmit = document.getElementsByClassName('beer-submit')[0];
     modalSubmit.setAttribute('id', e.target.getAttribute('id'));
@@ -375,8 +371,7 @@ submitCheckIn.addEventListener('click', function(e) {
   });
 });
 
-var addBeer = document.getElementById('addBeer');
-addBeer.addEventListener('click', function() {
+$("#addBeer").click(function() {
   var addedBeer = {};
 
   addedBeer.name = document.getElementById('addName').value;
