@@ -6,6 +6,19 @@ body {
   z-index: -1;
 }
 
+.check-button {
+  position: relative;
+  top: 5px;
+  max-width: 100px;
+  max-height: 100px;
+}
+
+.stat {
+  display:inline-block;
+}
+
+.box-shadow { box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); }
+
 #beer-search {
   position: relative;
   top: 10px;
@@ -17,8 +30,6 @@ body {
   top: 10px;
 }
 
-#search-panel { background-color: rgb(242, 242, 242); }
-
 #beer-image {
   max-width: 100px;
   max-width: 100px;
@@ -27,13 +38,6 @@ body {
 #beer-name {
   font-size: 18px;
   color: rgb(204, 0, 0);
-}
-
-.check-button {
-  position: relative;
-  top: 5px;
-  max-width: 100px;
-  max-height: 100px;
 }
 
 #profile-link {
@@ -52,21 +56,13 @@ body {
   cursor: pointer;
 }
 
-.stat {
-  display:inline-block;
-}
-
-#date-recent { border-left: 1px solid grey; }
-
-#rating-recent { border-right: 1px solid grey; }
-
-.box-shadow { box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); }
-
 #recent-style {
   color: black;
   font-size: 15px;
 }
 
+#search-panel { background-color: rgb(242, 242, 242); }
 #pie-chart { height: 500px; }
-
 #bar-chart { height: 500px; }
+#date-recent { border-left: 1px solid grey; }
+#rating-recent { border-right: 1px solid grey; }

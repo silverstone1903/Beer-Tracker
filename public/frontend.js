@@ -1,6 +1,5 @@
 //Chart functionality
 google.charts.load('current', {packages: ['corechart']});
-// google.charts.setOnLoadCallback(drawChart);
 
 function drawStyleChart() {
   $.ajax({
@@ -207,7 +206,6 @@ function recentElements(data) {
   var notes = document.createElement('div');
   notes.setAttribute('class', 'panel-footer');
   notes.textContent = data.notes;
-
 
   container.appendChild(names);
   container.appendChild(stats);
