@@ -149,19 +149,17 @@ function searchElements(data) {
   }
 
   //Allows check image to be used as button
-  var aTag = document.createElement('a');
-  aTag.setAttribute('data-target', '#myModal');
-  aTag.setAttribute('data-toggle', 'modal');
-
-  var checkButton = document.createElement('img');
-  checkButton.setAttribute('class', 'panel-body pull-right col-xs-2 check-button');
+  var checkButton = document.createElement('button');
+  checkButton.setAttribute('type', 'button');
+  checkButton.setAttribute('class', 'btn btn-warning pull-right check-button');
   checkButton.setAttribute('id', data.id);
-  checkButton.src = '/images/check.png';
+  checkButton.setAttribute('data-target', '#myModal');
+  checkButton.setAttribute('data-toggle', 'modal');
+  checkButton.textContent = 'Check-In';
 
   container.appendChild(image);
   container.appendChild(stats);
-  container.appendChild(aTag);
-  aTag.appendChild(checkButton);
+  container.appendChild(checkButton);
   stats.appendChild(name);
   stats.appendChild(style);
   stats.appendChild(abv);
@@ -172,7 +170,7 @@ function searchElements(data) {
 //Creates the DOM layout for the recent beers on profile page
 function recentElements(data) {
   var container = document.createElement('div');
-  container.setAttribute('class', 'panel panel-default box-shadow');
+  container.setAttribute('class', 'panel panel-default');
 
   var names = document.createElement('div');
   names.setAttribute('class', 'panel-heading text-center');
@@ -334,7 +332,7 @@ $("#stats-link").click(function() {
 
 //Passes the ID of that particular beer to the modal's submit button
 $("#results").click(function(e) {
-  if (e.target.getAttribute('class') == 'panel-body pull-right col-xs-2 check-button'){
+  if (e.target.getAttribute('class') == 'btn btn-warning pull-right check-button'){
     var modalSubmit = document.getElementsByClassName('beer-submit')[0];
     modalSubmit.setAttribute('id', e.target.getAttribute('id'));
   }

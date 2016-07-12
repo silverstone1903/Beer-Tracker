@@ -1,8 +1,6 @@
 .check-button {
   position: relative;
-  top: 5px;
-  max-width: 100px;
-  max-height: 100px;
+  left: 16px;
 }
 
 .stat {
