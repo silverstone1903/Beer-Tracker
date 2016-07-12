@@ -4,6 +4,8 @@ var brewdb = new BreweryDb('e49034113c1766216d75b6cb58535cf7');
 var bodyParser = require('body-parser');
 var app = express();
 
+app.set('port', (process.env.PORT || 5000));
+
 //Stores user check-in info
 var checkIns = [];
 
@@ -64,4 +66,6 @@ app.post('/showcheckin', function(req,res) {
   res.send();
 });
 
-app.listen(8080);
+app.listen(app.get('port'), function() {
+  console.log("app is running on http://localhost:" + app.get('port'));
+});
