@@ -1,3 +1,18 @@
+$("#signin-button").click(function() {
+  var username = $("#username").val();
+  var password = $("#password").val();
+
+  var credentials = {};
+  credentials.username = username;
+  credentials.password = password;
+
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', '/login');
+  xhr.setRequestHeader('Content-type', 'application/json');
+  xhr.send(JSON.stringify(credentials));
+})
+
+
 //Chart functionality
 google.charts.load('current', {packages: ['corechart']});
 

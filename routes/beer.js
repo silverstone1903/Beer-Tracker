@@ -2,11 +2,9 @@ var express = require('express');
 var BreweryDb = require('brewerydb-node');
 var brewdb = new BreweryDb('e49034113c1766216d75b6cb58535cf7');
 var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
 var beer = express.Router();
 
 beer.use(bodyParser.json());
-beer.use(cookieParser());
 
 //Stores user check-in info
 var checkIns = [];
