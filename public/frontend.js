@@ -3,7 +3,7 @@ google.charts.load('current', {packages: ['corechart']});
 
 function drawStyleChart() {
   $.ajax({
-    url: "profile",
+    url: "beer/profile",
     method: "GET",
     dataType: "json",
     success: function(json) {
@@ -56,7 +56,7 @@ function drawStyleChart() {
 
 function drawBreweryChart() {
   $.ajax({
-    url: "profile",
+    url: "beer/profile",
     method: "GET",
     dataType: "json",
     success: function(json) {
@@ -259,7 +259,7 @@ function submitSearch() {
   var beerSearch = document.getElementById('beer-search').value;
 
   var xhr = new XMLHttpRequest();
-  xhr.open('GET', '/search/:' + beerSearch);
+  xhr.open('GET', '/beer/search/:' + beerSearch);
   xhr.send();
 
   xhr.addEventListener('load', function() {
@@ -302,7 +302,7 @@ $('#search-form').keypress(function(e) {
 //Switches view to profile page when profile link is clicked
 $("#profile-link").click(function() {
   var xhr = new XMLHttpRequest();
-  xhr.open('GET', '/profile');
+  xhr.open('GET', '/beer/profile');
   xhr.send();
 
   xhr.addEventListener('load', function(){
@@ -351,7 +351,7 @@ submitCheckIn.addEventListener('click', function(e) {
   checkIn.rating = document.getElementById('rating').value;
 
   var xhr = new XMLHttpRequest();
-  xhr.open('POST', '/checkin/' + id);
+  xhr.open('POST', '/beer/checkin/' + id);
   xhr.setRequestHeader('Content-type', 'application/json');
   xhr.send(JSON.stringify(checkIn));
 
@@ -373,7 +373,7 @@ $("#addBeer").click(function() {
   addedBeer.rating = document.getElementById('addRating').value;
 
   var xhr = new XMLHttpRequest();
-  xhr.open('POST', '/add');
+  xhr.open('POST', '/beer/add');
   xhr.setRequestHeader('Content-type', 'application/json');
   xhr.send(JSON.stringify(addedBeer));
 
