@@ -2,6 +2,7 @@ var express = require('express');
 var BreweryDb = require('brewerydb-node');
 var brewdb = new BreweryDb('e49034113c1766216d75b6cb58535cf7');
 var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
 var app = express();
 
 var port = process.env.PORT || 3000;
@@ -11,6 +12,8 @@ var checkIns = [];
 
 app.use(express.static('./public'));
 app.use(bodyParser.json());
+app.use(cookieParser());
+
 
 //Takes the input from the user's search and runs it through the brewdb database
 app.get('/search/:name', function(req, res) {
