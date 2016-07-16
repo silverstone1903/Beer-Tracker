@@ -1,18 +1,3 @@
-$("#signin-button").click(function() {
-  var username = $("#username").val();
-  var password = $("#password").val();
-
-  var credentials = {};
-  credentials.username = username;
-  credentials.password = password;
-
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', '/login');
-  xhr.setRequestHeader('Content-type', 'application/json');
-  xhr.send(JSON.stringify(credentials));
-})
-
-
 //Chart functionality
 google.charts.load('current', {packages: ['corechart']});
 
@@ -304,6 +289,28 @@ function submitSearch() {
   });
   swap('results', 'current');
 }
+
+$("#signin-button").click(function() {
+  var username = $("#username").val();
+  var password = $("#password").val();
+
+  var credentials = {};
+  credentials.username = username;
+  credentials.password = password;
+
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', '/login');
+  xhr.setRequestHeader('Content-type', 'application/json');
+  xhr.send(JSON.stringify(credentials));
+
+  xhr.addEventListener('load', function() {
+    if (xhr.responseText) {
+      $("#top").removeClass('hide');
+      $("#user-welcome").text('Welcome ' + xhr.responseText);
+      swap('opening-screen', 'current');
+    }
+  });
+});
 
 //Allow searches to be submitted with both clicking search button and pressing enter
 $("#submit").click(submitSearch);

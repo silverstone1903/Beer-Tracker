@@ -5,19 +5,15 @@ var authenticate = require('./../authenticate.js');
 var users = require('./../users.js').data;
 var login = express.Router();
 
-
-
 login.use(cookieParser());
 login.use(bodyParser.json());
 
 login.post('/', function(req, res) {
-  console.log(req.body);
   if (authenticate.check(users, req.body.username, req.body.password)) {
-    console.log('Success');
+    res.send(req.body.username);
   } else {
-    console.log('Fail');
+    res.send();
   }
 });
-
 
 module.exports = login;
