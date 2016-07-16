@@ -3,14 +3,14 @@
   margin: 0 auto;
 }
 
+.sign-input { margin-bottom: 10px; }
+
 .check-button {
   position: relative;
   left: 16px;
 }
 
-.stat {
-  display:inline-block;
-}
+.stat { display:inline-block; }
 
 .nav-link {
   position: relative;
