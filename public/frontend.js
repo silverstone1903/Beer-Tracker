@@ -1,6 +1,22 @@
 //Chart functionality
 google.charts.load('current', {packages: ['corechart']});
 
+function check() {
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', '/login/check');
+  xhr.send();
+
+  xhr.addEventListener('load', function() {
+    if (xhr.responseText) {
+      swap('opening-screen', 'current');
+      $("#user").text(xhr.responseText);
+      $("#top").removeClass('hide');
+    } else {
+      swap('login', 'current');
+    }
+  });
+}
+
 function drawStyleChart() {
   $.ajax({
     url: "beer/profile",
@@ -304,11 +320,14 @@ $("#signin-button").click(function() {
   xhr.send(JSON.stringify(credentials));
 
   xhr.addEventListener('load', function() {
-    if (xhr.responseText) {
-      $("#top").removeClass('hide');
-      $("#user-welcome").text('Welcome ' + xhr.responseText);
-      swap('opening-screen', 'current');
-    }
+    check();
+
+
+    // if (xhr.responseText) {
+    //   $("#top").removeClass('hide');
+    //   $("#user-welcome").text('Welcome ' + xhr.responseText);
+    //   swap('opening-screen', 'current');
+    // }
   });
 });
 

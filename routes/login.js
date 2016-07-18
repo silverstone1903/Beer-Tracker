@@ -17,10 +17,20 @@ login.post('/', function(req, res) {
     session.username = req.body.username;
     session.id = id;
     sessions.sessions.push(session);
-    console.log(sessions.sessions);
     res.cookie('cookie', id);
   }
   res.send();
+});
+
+login.post('/check', function(req, res) {
+  var id = req.cookies.cookie;
+  var user = sessions.check(id);
+
+  if(user.length > 0) {
+    res.send(user[0].username);
+  } else {
+    res.send();
+  }
 });
 
 module.exports = login;
