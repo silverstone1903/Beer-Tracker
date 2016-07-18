@@ -321,14 +321,11 @@ $("#signin-button").click(function() {
 
   xhr.addEventListener('load', function() {
     check();
-
-
-    // if (xhr.responseText) {
-    //   $("#top").removeClass('hide');
-    //   $("#user-welcome").text('Welcome ' + xhr.responseText);
-    //   swap('opening-screen', 'current');
-    // }
   });
+});
+
+window.addEventListener('load', function() {
+  check();
 });
 
 //Allow searches to be submitted with both clicking search button and pressing enter
