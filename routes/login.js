@@ -33,4 +33,8 @@ login.post('/check', function(req, res) {
   }
 });
 
+login.post('/new', function(req, res) {
+  console.log(req.body.username, req.body.password);
+});
+
 module.exports = login;

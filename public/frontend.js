@@ -306,6 +306,21 @@ function submitSearch() {
   swap('results', 'current');
 }
 
+$("#account-button").click(function() {
+  var username = $("#new-username").val();
+  var password = $("#new-password").val();
+
+  var credentials = {};
+  credentials.username = username;
+  credentials.password = password;
+
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', '/login/new');
+  xhr.setRequestHeader('Content-type', 'application/json');
+  xhr.send(JSON.stringify(credentials));
+
+});
+
 $("#signin-button").click(function() {
   var username = $("#username").val();
   var password = $("#password").val();
