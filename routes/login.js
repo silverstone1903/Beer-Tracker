@@ -34,7 +34,12 @@ login.post('/check', function(req, res) {
 });
 
 login.post('/new', function(req, res) {
-  console.log(req.body.username, req.body.password);
+  var account = {};
+  account.name = req.body.username;
+  account.password = req.body.password;
+
+  users.push(account);
+  console.log(users);
 });
 
 module.exports = login;
