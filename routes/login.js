@@ -39,6 +39,7 @@ login.post('/new', function(req, res) {
   account.password = req.body.password;
 
   users.push(account);
+  res.send();
   console.log(users);
 });
 
