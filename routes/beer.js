@@ -2,6 +2,8 @@ var express = require('express');
 var BreweryDb = require('brewerydb-node');
 var brewdb = new BreweryDb('e49034113c1766216d75b6cb58535cf7');
 var bodyParser = require('body-parser');
+var Client = require('mongodb').MongoClient;
+var url = 'mongodb://m-rstewart:craft@ds153705.mlab.com:53705/m-rstewart-beer-tracker';
 var beer = express.Router();
 
 beer.use(bodyParser.json());
