@@ -30,7 +30,7 @@ beer.post('/checkin/:id', function(req, res) {
       console.log(error);
     } else {
       var collection = db.collection('checkIns');
-      
+
       brewdb.beer.getById(req.params.id, { withBreweries: 'Y' }, function(err, data) {
         var checkIn = {};
         checkIn.style = data.style.name;
@@ -53,18 +53,25 @@ beer.post('/checkin/:id', function(req, res) {
 
 //Route for adding a beer
 beer.post('/add', function(req, res) {
-  var checkIn = {};
-  checkIn.name = req.body.name;
-  checkIn.brewery = req.body.brewery;
-  checkIn.style = req.body.style;
-  checkIn.id = req.body.id;
-  checkIn.notes = req.body.notes;
-  checkIn.location = req.body.location;
-  checkIn.date = req.body.date;
-  checkIn.rating = req.body.rating;
+  Client.connect(url, function(error, db) {
+    if(error) {
+      console.log(error);
+    } else {
+      var collection = db.collection('checkIns');
 
-  checkIns.push(checkIn);
+      var checkIn = {};
+      checkIn.name = req.body.name;
+      checkIn.brewery = req.body.brewery;
+      checkIn.style = req.body.style;
+      checkIn.id = req.body.id;
+      checkIn.notes = req.body.notes;
+      checkIn.location = req.body.location;
+      checkIn.date = req.body.date;
+      checkIn.rating = req.body.rating;
 
+      collection.insert(checkIn);
+    }
+  });
   res.send();
 });
 
