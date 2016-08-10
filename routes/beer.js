@@ -25,20 +25,28 @@ beer.get('/profile', function(req, res) {
 
 //Takes in check-in info from the user and uses beer ID to get beer and brewrey name from brewdb
 beer.post('/checkin/:id', function(req, res) {
-  brewdb.beer.getById(req.params.id, { withBreweries: 'Y' }, function(err, data) {
-    var checkIn = {};
-    checkIn.style = data.style.name;
-    checkIn.name = data.name;
-    checkIn.brewery = data.breweries[0].name;
-    checkIn.style = data.style.name;
-    checkIn.styleId = data.styleId;
-    checkIn.id = req.body.id;
-    checkIn.notes = req.body.notes;
-    checkIn.location = req.body.location;
-    checkIn.date = req.body.date;
-    checkIn.rating = req.body.rating;
+  Client.connect(url, function(error, db) {
+    if(error) {
+      console.log(error);
+    } else {
+      var collection = db.collection('checkIns');
+      
+      brewdb.beer.getById(req.params.id, { withBreweries: 'Y' }, function(err, data) {
+        var checkIn = {};
+        checkIn.style = data.style.name;
+        checkIn.name = data.name;
+        checkIn.brewery = data.breweries[0].name;
+        checkIn.style = data.style.name;
+        checkIn.styleId = data.styleId;
+        checkIn.id = req.body.id;
+        checkIn.notes = req.body.notes;
+        checkIn.location = req.body.location;
+        checkIn.date = req.body.date;
+        checkIn.rating = req.body.rating;
 
-    checkIns.push(checkIn);
+        collection.insert(checkIn);
+      });
+    }
   });
   res.send();
 });
