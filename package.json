@@ -20,9 +20,14 @@
   "dependencies": {
     "body-parser": "^1.15.2",
     "brewerydb-node": "0.0.1",
+    "chai": "^3.5.0",
     "cookie-parser": "^1.4.3",
     "express": "^4.14.0",
+    "gulp": "^3.9.1",
+    "gulp-mocha": "^3.0.0",
+    "mocha": "^3.0.2",
     "mongodb": "^2.2.5",
+    "request": "^2.74.0",
     "underscore": "^1.8.3"
   },
   "engines": {
