@@ -22,6 +22,7 @@
     "brewerydb-node": "0.0.1",
     "cookie-parser": "^1.4.3",
     "express": "^4.14.0",
+    "mongodb": "^2.2.5",
     "underscore": "^1.8.3"
   },
   "engines": {
