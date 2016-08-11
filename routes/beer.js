@@ -8,9 +8,6 @@ var beer = express.Router();
 
 beer.use(bodyParser.json());
 
-//Stores user check-in info
-var checkIns = [];
-
 //Takes the input from the user's search and runs it through the brewdb database
 beer.get('/search/:name', function(req, res) {
   brewdb.search.beers({ q: req.params.name, withBreweries: 'Y' }, function(err, data) {
@@ -20,7 +17,19 @@ beer.get('/search/:name', function(req, res) {
 
 //Provides check-in info to be displayed when switching to profile
 beer.get('/profile', function(req, res) {
-  res.json(checkIns);
+  Client.connect(url, function(error, db) {
+    if(error) {
+      console.log(error);
+    } else {
+      var collection = db.collection('checkIns');
+      collection
+      .find({})
+      .toArray(function(error, documents) {
+        res.json(documents);
+        db.close();
+      });
+    }
+  });
 });
 
 //Takes in check-in info from the user and uses beer ID to get beer and brewrey name from brewdb
@@ -45,6 +54,7 @@ beer.post('/checkin/:id', function(req, res) {
         checkIn.rating = req.body.rating;
 
         collection.insert(checkIn);
+        db.close();
       });
     }
   });
@@ -70,6 +80,7 @@ beer.post('/add', function(req, res) {
       checkIn.rating = req.body.rating;
 
       collection.insert(checkIn);
+      db.close();
     }
   });
   res.send();
