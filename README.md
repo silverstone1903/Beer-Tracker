@@ -5,14 +5,15 @@ A tracking app for craft-beer enthusiasts who want to chronicle a journey throug
 
 ![Alt text](public/images/brewerydb.png)
 
-Technologies:
+Frameworks:
 * Node.js
 * Express.js
+* MongoDB
 
-Libraries/Frameworks:
+Libraries:
 * jQuery
 * Underscore.js
-* Bootstrap
+* Bootstrap 3
 
 API's:
 * BreweryDB
