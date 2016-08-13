@@ -15,5 +15,14 @@ describe('Test the REST API', function() {
         done();
       });
     });
+    it('puts a checkin in the db', function(done) {
+      request({
+        url: 'http://localhost:3000/beer/checkin/UPgRlt',
+        method: 'POST'
+      }, function(error, response) {
+        assert.equal(response.statusCode, 200);
+        done();
+      });
+    });
   });
 });
