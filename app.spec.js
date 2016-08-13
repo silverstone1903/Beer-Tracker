@@ -25,4 +25,16 @@ describe('Test the REST API', function() {
       });
     });
   });
+
+  describe('GET', function() {
+    it('pull checkin info from the db', function(done) {
+      request({
+        url: 'http://localhost3000/beer/profile',
+        method: 'GET'
+      }, function(error, response) {
+        assert.equal(response.statusCode, 200);
+        done();
+      });
+    });
+  });
 });
