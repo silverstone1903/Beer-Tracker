@@ -448,6 +448,6 @@ $("#profile-search-button").click(function() {
   xhr.send();
 
   xhr.addEventListener('load', function() {
-    console.log(xhr.responseText);
+    console.log(JSON.parse(xhr.responseText));
   });
 });
