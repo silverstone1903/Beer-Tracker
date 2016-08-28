@@ -4,11 +4,11 @@ var url = 'mongodb://m-rstewart:craft@ds153705.mlab.com:53705/m-rstewart-beer-tr
 var profile = express.Router();
 
 profile.get('/beer/:beer', function(req, res) {
-  res.sendStatus(200);
+  res.send('beer');
 });
 
 profile.get('/brewery/:brewery', function(req, res) {
-  res.sendStatus(200);
+  res.send('brewery');
 });
 
 module.exports = profile;

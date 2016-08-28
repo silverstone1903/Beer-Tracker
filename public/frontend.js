@@ -434,3 +434,20 @@ $("#addBeer").click(function() {
     document.getElementById('add-form').reset();
   });
 });
+
+$("#profile-search-button").click(function() {
+  var selector = $("#profile-select option:selected").val();
+  var search = $("#profile-search").val();
+
+  var xhr = new XMLHttpRequest();
+  if(selector === 'Beer') {
+    xhr.open('GET', '/search/beer/' + search);
+  } else if(selector === 'Brewery') {
+    xhr.open('GET', '/search/brewery/' + search);
+  }
+  xhr.send();
+
+  xhr.addEventListener('load', function() {
+    console.log(xhr.responseText);
+  });
+});
