@@ -360,14 +360,10 @@ $("#profile-link").click(function() {
 
   xhr.addEventListener('load', function(){
     var beers = JSON.parse(xhr.responseText);
-    var recentBeers = document.getElementById('recent-beers');
-    var beerList = document.createElement('div');
 
     $("#recent-beers").empty();
     totalCount(beers);
     uniqueCount(beers);
-
-    beerList.setAttribute('class', 'container');
 
     beers.forEach(function(i) {
       $("#recent-beers").append(recentElements(i));
@@ -448,6 +444,15 @@ $("#profile-search-button").click(function() {
   xhr.send();
 
   xhr.addEventListener('load', function() {
-    console.log(JSON.parse(xhr.responseText));
+    var beers = JSON.parse(xhr.responseText);
+    $("#recent-beers").empty();
+
+    if(beers.length === 0) {
+      $("#recent-beers").append("<p>Not found. Please check your spelling/case and make sure you are using the right search selector</p>");
+    } else {
+      beers.forEach(function(i) {
+        $("#recent-beers").append(recentElements(i));
+      });
+    }
   });
 });
