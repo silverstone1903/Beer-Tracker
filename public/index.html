@@ -42,12 +42,18 @@
     <div class="container hide" id="profile">
       <div class="row">
         <div class="col-xs-4" id="profile-side">
-          <div class="panel panel-default box-shadow">
+          <div class="panel panel-default">
             <div class="panel-heading" id="user-welcome">
             </div>
             <div class="panel-body">
               <p>Unique Beers:<span id="unique-beers"></span></p>
               <p>Total Check-Ins:<span id="total-checkins"></span></p>
+              <input type="text" class="form-control" id="profile-search" placeholder="Search your beers here">
+              <select class="form-control" id="profile-select">
+                <option>Beer</option>
+                <option>Brewery</option>
+              </select>
+              <button type="button" class="btn btn-success center-block" id="profile-search-button">Go</button>
             </div>
           </div>
           <div id="chart"></div>
@@ -109,7 +115,7 @@
         </div>
       </div>
     </div>
-  <div class="modal fade" id="account-modal" tabindex="-1" role="dialog" aria-labelledby="account-modal">
+    <div class="modal fade" id="account-modal" tabindex="-1" role="dialog" aria-labelledby="account-modal">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
