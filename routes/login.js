@@ -51,7 +51,6 @@ login.post('/new', function(req, res) {
   } else {
     res.send('Unsuccessful');
   }
-  console.log(users);
 });
 
 module.exports = login;

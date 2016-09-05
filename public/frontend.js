@@ -343,6 +343,7 @@ $("#account-button").click(function() {
     if(xhr.responseText === 'Unsuccessful') {
       $("#login-message").text('User already found. Please try again.');
     }
+    document.getElementById('account-form').reset();
   });
 });
 
