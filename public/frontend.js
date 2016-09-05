@@ -13,7 +13,7 @@ function check() {
       $("#top").removeClass('hide');
     } else {
       swap('login', 'current');
-      $(".form-signin").prepend("<p class='text-center' id='unsuccess'>Login Unsuccessful. Please try again.</p>");
+      $("#login-message").text('Login Unsuccessful. Please try again');
     }
   });
 }
@@ -336,6 +336,14 @@ $("#account-button").click(function() {
   xhr.setRequestHeader('Content-type', 'application/json');
   xhr.send(JSON.stringify(credentials));
 
+  xhr.addEventListener('load', function() {
+    if(xhr.responseText === 'Successful') {
+      $("#login-message").text('Account Created! Please sign in.');
+    }
+    if(xhr.responseText === 'Unsuccessful') {
+      $("#login-message").text('User already found. Please try again.');
+    }
+  });
 });
 
 $("#signin-button").click(function() {

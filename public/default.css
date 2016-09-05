@@ -46,7 +46,7 @@
   font-size: 15px;
 }
 
-#unsuccess { color: red; }
+#login-message { color: red; }
 #search-panel { background-color: rgb(242, 242, 242); }
 #pie-chart { height: 500px; }
 #bar-chart { height: 500px; }
