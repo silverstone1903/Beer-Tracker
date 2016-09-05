@@ -35,12 +35,22 @@ login.post('/check', function(req, res) {
 
 login.post('/new', function(req, res) {
   var account = {};
+  var match = [];
   account.name = req.body.username;
   account.password = req.body.password;
 
-  users.push(account);
-  res.send();
-  console.log(users);
+  users.forEach(function(i){
+    if(i.name === req.body.username) {
+      match.push(i.name);
+    }
+  });
+
+  if(match.length === 0) {
+    users.push(account);
+    res.send('Successful');
+  } else {
+    res.send('Unsuccessful');
+  }
 });
 
 module.exports = login;

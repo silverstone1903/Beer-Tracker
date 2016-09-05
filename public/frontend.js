@@ -13,6 +13,23 @@ function check() {
       $("#top").removeClass('hide');
     } else {
       swap('login', 'current');
+      $("#login-message").text('Login Unsuccessful. Please try again');
+    }
+  });
+}
+
+function firstCheck() {
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', '/login/check');
+  xhr.send();
+
+  xhr.addEventListener('load', function() {
+    if (xhr.responseText) {
+      swap('opening-screen', 'current');
+      $("#user").text(xhr.responseText);
+      $("#top").removeClass('hide');
+    } else {
+      swap('login', 'current');
     }
   });
 }
@@ -319,6 +336,15 @@ $("#account-button").click(function() {
   xhr.setRequestHeader('Content-type', 'application/json');
   xhr.send(JSON.stringify(credentials));
 
+  xhr.addEventListener('load', function() {
+    if(xhr.responseText === 'Successful') {
+      $("#login-message").text('Account Created! Please sign in.');
+    }
+    if(xhr.responseText === 'Unsuccessful') {
+      $("#login-message").text('User already found. Please try again.');
+    }
+    document.getElementById('account-form').reset();
+  });
 });
 
 $("#signin-button").click(function() {
@@ -340,7 +366,7 @@ $("#signin-button").click(function() {
 });
 
 window.addEventListener('load', function() {
-  check();
+  firstCheck();
 });
 
 //Allow searches to be submitted with both clicking search button and pressing enter
