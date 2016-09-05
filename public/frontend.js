@@ -13,6 +13,23 @@ function check() {
       $("#top").removeClass('hide');
     } else {
       swap('login', 'current');
+      $(".form-signin").prepend("<p class='text-center' id='unsuccess'>Login Unsuccessful. Please try again.</p>");
+    }
+  });
+}
+
+function firstCheck() {
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', '/login/check');
+  xhr.send();
+
+  xhr.addEventListener('load', function() {
+    if (xhr.responseText) {
+      swap('opening-screen', 'current');
+      $("#user").text(xhr.responseText);
+      $("#top").removeClass('hide');
+    } else {
+      swap('login', 'current');
     }
   });
 }
@@ -340,7 +357,7 @@ $("#signin-button").click(function() {
 });
 
 window.addEventListener('load', function() {
-  check();
+  firstCheck();
 });
 
 //Allow searches to be submitted with both clicking search button and pressing enter
