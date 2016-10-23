@@ -55,10 +55,10 @@ beer.post('/checkin/:id', function(req, res) {
 
         collection.insert(checkIn);
         db.close();
+        res.send();
       });
     }
   });
-  res.send();
 });
 
 //Route for adding a beer
@@ -81,9 +81,9 @@ beer.post('/add', function(req, res) {
 
       collection.insert(checkIn);
       db.close();
+      res.send();
     }
   });
-  res.send();
 });
 
 module.exports = beer;
