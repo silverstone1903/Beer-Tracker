@@ -326,10 +326,12 @@ function submitSearch() {
 $("#account-button").click(function() {
   var username = $("#new-username").val();
   var password = $("#new-password").val();
+  var email = $("#new-email").val();
 
   var credentials = {};
   credentials.username = username;
   credentials.password = password;
+  credentials.email = email;
 
   var xhr = new XMLHttpRequest();
   xhr.open('POST', '/login/new');
