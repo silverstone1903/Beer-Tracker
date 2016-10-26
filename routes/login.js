@@ -5,6 +5,8 @@ var authenticate = require('./../authenticate.js');
 var users = require('./../users.js').data;
 var cookies = require('./../cookies.js');
 var sessions = require('./../sessions.js');
+var Client = require('mongodb').MongoClient;
+var url = 'mongodb://m-rstewart:craft@ds153705.mlab.com:53705/m-rstewart-beer-tracker';
 var login = express.Router();
 
 login.use(cookieParser());
