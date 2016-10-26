@@ -1,38 +1,38 @@
 //Chart functionality
 google.charts.load('current', {packages: ['corechart']});
 
-function check() {
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', '/login/check');
-  xhr.send();
+// function check() {
+//   var xhr = new XMLHttpRequest();
+//   xhr.open('POST', '/login/check');
+//   xhr.send();
+//
+//   xhr.addEventListener('load', function() {
+//     if (xhr.responseText) {
+//       swap('opening-screen', 'current');
+//       $("#user").text(xhr.responseText);
+//       $("#top").removeClass('hide');
+//     } else {
+//       swap('login', 'current');
+//       $("#login-message").text('Login Unsuccessful. Please try again');
+//     }
+//   });
+// }
 
-  xhr.addEventListener('load', function() {
-    if (xhr.responseText) {
-      swap('opening-screen', 'current');
-      $("#user").text(xhr.responseText);
-      $("#top").removeClass('hide');
-    } else {
-      swap('login', 'current');
-      $("#login-message").text('Login Unsuccessful. Please try again');
-    }
-  });
-}
-
-function firstCheck() {
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', '/login/check');
-  xhr.send();
-
-  xhr.addEventListener('load', function() {
-    if (xhr.responseText) {
-      swap('opening-screen', 'current');
-      $("#user").text(xhr.responseText);
-      $("#top").removeClass('hide');
-    } else {
-      swap('login', 'current');
-    }
-  });
-}
+// function firstCheck() {
+//   var xhr = new XMLHttpRequest();
+//   xhr.open('POST', '/login/check');
+//   xhr.send();
+//
+//   xhr.addEventListener('load', function() {
+//     if (xhr.responseText) {
+//       swap('opening-screen', 'current');
+//       $("#user").text(xhr.responseText);
+//       $("#top").removeClass('hide');
+//     } else {
+//       swap('login', 'current');
+//     }
+//   });
+// }
 
 function drawStyleChart() {
   $.ajax({
@@ -363,13 +363,13 @@ $("#signin-button").click(function() {
   xhr.send(JSON.stringify(credentials));
 
   xhr.addEventListener('load', function() {
-    check();
+    // check();
   });
 });
 
-window.addEventListener('load', function() {
-  firstCheck();
-});
+// window.addEventListener('load', function() {
+//   firstCheck();
+// });
 
 //Allow searches to be submitted with both clicking search button and pressing enter
 $("#submit").click(submitSearch);
