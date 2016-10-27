@@ -330,7 +330,14 @@ $("#signin-button").click(function() {
   xhr.send(JSON.stringify(credentials));
 
   xhr.addEventListener('load', function() {
-
+    if(xhr.responseText) {
+      swap('opening-screen', 'current');
+      $("#user").text(xhr.responseText);
+      $("#top").removeClass('hide');
+    } else {
+      swap('login', 'current');
+      $("#login-message").text('Login Unsuccessful. Please try again');
+    }
   });
 });
 
