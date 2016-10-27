@@ -42,6 +42,7 @@ beer.post('/checkin/:id', function(req, res) {
 
       brewdb.beer.getById(req.params.id, { withBreweries: 'Y' }, function(err, data) {
         var checkIn = {};
+        checkIn.user = req.body.user;
         checkIn.style = data.style.name;
         checkIn.name = data.name;
         checkIn.brewery = data.breweries[0].name;
@@ -70,6 +71,7 @@ beer.post('/add', function(req, res) {
       var collection = db.collection('checkIns');
 
       var checkIn = {};
+      checkIn.user = req.body.user;
       checkIn.name = req.body.name;
       checkIn.brewery = req.body.brewery;
       checkIn.style = req.body.style;
