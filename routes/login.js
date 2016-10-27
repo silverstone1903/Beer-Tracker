@@ -1,11 +1,9 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
 var Client = require('mongodb').MongoClient;
 var url = 'mongodb://m-rstewart:craft@ds153705.mlab.com:53705/m-rstewart-beer-tracker';
 var login = express.Router();
 
-login.use(cookieParser());
 login.use(bodyParser.json());
 
 login.post('/', function(req,res) {
@@ -19,7 +17,7 @@ login.post('/', function(req,res) {
       collection.find({ "name": username })
       .toArray(function(error, documents) {
         var results = documents;
-        
+
         if(results[0].password === password) {
           res.send('Success');
           db.close();
