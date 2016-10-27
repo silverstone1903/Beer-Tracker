@@ -16,14 +16,14 @@ beer.get('/search/:name', function(req, res) {
 });
 
 //Provides check-in info to be displayed when switching to profile
-beer.get('/profile', function(req, res) {
+beer.get('/profile/:user', function(req, res) {
   Client.connect(url, function(error, db) {
     if(error) {
       console.log(error);
     } else {
       var collection = db.collection('checkIns');
       collection
-      .find({})
+      .find({ "user" : req.params.user})
       .toArray(function(error, documents) {
         res.json(documents);
         db.close();
