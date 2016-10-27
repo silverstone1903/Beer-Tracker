@@ -18,6 +18,8 @@ login.post('/', function(req,res) {
       var password = req.body.password;
       collection.find({ "name": username })
       .toArray(function(error, documents) {
+        var results = documents;
+        
         if(results[0].password === password) {
           res.send('Success');
           db.close();
