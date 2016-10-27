@@ -310,7 +310,7 @@ $("#account-button").click(function() {
       $("#login-message").text('Account Created! Please sign in.');
     }
     if(xhr.responseText === 'Unsuccessful') {
-      $("#login-message").text('User already found. Please try again.');
+      $("#login-message").text('This email address has already been used. Please try again.');
     }
     document.getElementById('account-form').reset();
   });
@@ -330,7 +330,7 @@ $("#signin-button").click(function() {
   xhr.send(JSON.stringify(credentials));
 
   xhr.addEventListener('load', function() {
-    
+
   });
 });
 
