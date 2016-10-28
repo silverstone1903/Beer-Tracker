@@ -16,14 +16,14 @@ beer.get('/search/:name', function(req, res) {
 });
 
 //Provides check-in info to be displayed when switching to profile
-beer.get('/profile', function(req, res) {
+beer.get('/profile/:user', function(req, res) {
   Client.connect(url, function(error, db) {
     if(error) {
       console.log(error);
     } else {
       var collection = db.collection('checkIns');
       collection
-      .find({})
+      .find({ "user" : req.params.user})
       .toArray(function(error, documents) {
         res.json(documents);
         db.close();
@@ -42,6 +42,7 @@ beer.post('/checkin/:id', function(req, res) {
 
       brewdb.beer.getById(req.params.id, { withBreweries: 'Y' }, function(err, data) {
         var checkIn = {};
+        checkIn.user = req.body.user;
         checkIn.style = data.style.name;
         checkIn.name = data.name;
         checkIn.brewery = data.breweries[0].name;
@@ -70,6 +71,7 @@ beer.post('/add', function(req, res) {
       var collection = db.collection('checkIns');
 
       var checkIn = {};
+      checkIn.user = req.body.user;
       checkIn.name = req.body.name;
       checkIn.brewery = req.body.brewery;
       checkIn.style = req.body.style;

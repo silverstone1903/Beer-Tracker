@@ -1,42 +1,11 @@
+var userSession = [];
+
 //Chart functionality
 google.charts.load('current', {packages: ['corechart']});
 
-function check() {
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', '/login/check');
-  xhr.send();
-
-  xhr.addEventListener('load', function() {
-    if (xhr.responseText) {
-      swap('opening-screen', 'current');
-      $("#user").text(xhr.responseText);
-      $("#top").removeClass('hide');
-    } else {
-      swap('login', 'current');
-      $("#login-message").text('Login Unsuccessful. Please try again');
-    }
-  });
-}
-
-function firstCheck() {
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', '/login/check');
-  xhr.send();
-
-  xhr.addEventListener('load', function() {
-    if (xhr.responseText) {
-      swap('opening-screen', 'current');
-      $("#user").text(xhr.responseText);
-      $("#top").removeClass('hide');
-    } else {
-      swap('login', 'current');
-    }
-  });
-}
-
 function drawStyleChart() {
   $.ajax({
-    url: "beer/profile",
+    url: "beer/profile/" + userSession,
     method: "GET",
     dataType: "json",
     success: function(json) {
@@ -89,7 +58,7 @@ function drawStyleChart() {
 
 function drawBreweryChart() {
   $.ajax({
-    url: "beer/profile",
+    url: "beer/profile/" + userSession,
     method: "GET",
     dataType: "json",
     success: function(json) {
@@ -323,13 +292,19 @@ function submitSearch() {
   swap('results', 'current');
 }
 
+//--------------------------------------------------------------
+//Begin event listeners
+//--------------------------------------------------------------
+
 $("#account-button").click(function() {
   var username = $("#new-username").val();
   var password = $("#new-password").val();
+  var email = $("#new-email").val();
 
   var credentials = {};
   credentials.username = username;
   credentials.password = password;
+  credentials.email = email;
 
   var xhr = new XMLHttpRequest();
   xhr.open('POST', '/login/new');
@@ -341,7 +316,7 @@ $("#account-button").click(function() {
       $("#login-message").text('Account Created! Please sign in.');
     }
     if(xhr.responseText === 'Unsuccessful') {
-      $("#login-message").text('User already found. Please try again.');
+      $("#login-message").text('This email address has already been used. Please try again.');
     }
     document.getElementById('account-form').reset();
   });
@@ -361,12 +336,16 @@ $("#signin-button").click(function() {
   xhr.send(JSON.stringify(credentials));
 
   xhr.addEventListener('load', function() {
-    check();
+    if(xhr.responseText) {
+      userSession.push(xhr.responseText);
+      swap('opening-screen', 'current');
+      $("#user").text(xhr.responseText);
+      $("#top").removeClass('hide');
+    } else {
+      swap('login', 'current');
+      $("#login-message").text('Login Unsuccessful. Please try again');
+    }
   });
-});
-
-window.addEventListener('load', function() {
-  firstCheck();
 });
 
 //Allow searches to be submitted with both clicking search button and pressing enter
@@ -381,7 +360,7 @@ $('#search-form').keypress(function(e) {
 //Switches view to profile page when profile link is clicked
 $("#profile-link").click(function() {
   var xhr = new XMLHttpRequest();
-  xhr.open('GET', '/beer/profile');
+  xhr.open('GET', '/beer/profile/' + userSession[0]);
   xhr.send();
 
   xhr.addEventListener('load', function(){
@@ -419,6 +398,7 @@ submitCheckIn.addEventListener('click', function(e) {
   var id = submitCheckIn.getAttribute('id');
   var checkIn = {};
 
+  checkIn.user = userSession[0];
   checkIn.id = submitCheckIn.getAttribute('id');
   checkIn.notes = document.getElementById('tasting-notes').value;
   checkIn.location = document.getElementById('location').value;
@@ -438,6 +418,7 @@ submitCheckIn.addEventListener('click', function(e) {
 $("#addBeer").click(function() {
   var addedBeer = {};
 
+  addedBeer.user = userSession[0];
   addedBeer.name = document.getElementById('addName').value;
   addedBeer.brewery = document.getElementById('addBrewery').value;
   addedBeer.style = document.getElementById('addStyle').value;
@@ -463,9 +444,9 @@ $("#profile-search-button").click(function() {
 
   var xhr = new XMLHttpRequest();
   if(selector === 'Beer') {
-    xhr.open('GET', '/search/beer/' + search);
+    xhr.open('GET', '/search/beer/' + search + '/' + userSession);
   } else if(selector === 'Brewery') {
-    xhr.open('GET', '/search/brewery/' + search);
+    xhr.open('GET', '/search/brewery/' + search + '/' + userSession);
   }
   xhr.send();
 
