@@ -5,7 +5,7 @@ google.charts.load('current', {packages: ['corechart']});
 
 function drawStyleChart() {
   $.ajax({
-    url: "beer/profile",
+    url: "beer/profile/" + userSession,
     method: "GET",
     dataType: "json",
     success: function(json) {
@@ -58,7 +58,7 @@ function drawStyleChart() {
 
 function drawBreweryChart() {
   $.ajax({
-    url: "beer/profile",
+    url: "beer/profile/" + userSession,
     method: "GET",
     dataType: "json",
     success: function(json) {
@@ -338,7 +338,6 @@ $("#signin-button").click(function() {
   xhr.addEventListener('load', function() {
     if(xhr.responseText) {
       userSession.push(xhr.responseText);
-      console.log(userSession);
       swap('opening-screen', 'current');
       $("#user").text(xhr.responseText);
       $("#top").removeClass('hide');
@@ -361,7 +360,7 @@ $('#search-form').keypress(function(e) {
 //Switches view to profile page when profile link is clicked
 $("#profile-link").click(function() {
   var xhr = new XMLHttpRequest();
-  xhr.open('GET', '/beer/profile');
+  xhr.open('GET', '/beer/profile/' + userSession[0]);
   xhr.send();
 
   xhr.addEventListener('load', function(){
@@ -399,6 +398,7 @@ submitCheckIn.addEventListener('click', function(e) {
   var id = submitCheckIn.getAttribute('id');
   var checkIn = {};
 
+  checkIn.user = userSession[0];
   checkIn.id = submitCheckIn.getAttribute('id');
   checkIn.notes = document.getElementById('tasting-notes').value;
   checkIn.location = document.getElementById('location').value;
@@ -418,6 +418,7 @@ submitCheckIn.addEventListener('click', function(e) {
 $("#addBeer").click(function() {
   var addedBeer = {};
 
+  addedBeer.user = userSession[0];
   addedBeer.name = document.getElementById('addName').value;
   addedBeer.brewery = document.getElementById('addBrewery').value;
   addedBeer.style = document.getElementById('addStyle').value;
