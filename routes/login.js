@@ -19,7 +19,7 @@ login.post('/', function(req,res) {
         var results = documents;
 
         if(results[0].password === password) {
-          res.send('Success');
+          res.send(username);
           db.close();
         } else {
           res.send();

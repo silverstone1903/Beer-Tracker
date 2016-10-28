@@ -1,3 +1,5 @@
+var userSession = [];
+
 //Chart functionality
 google.charts.load('current', {packages: ['corechart']});
 
@@ -290,6 +292,10 @@ function submitSearch() {
   swap('results', 'current');
 }
 
+//--------------------------------------------------------------
+//Begin event listeners
+//--------------------------------------------------------------
+
 $("#account-button").click(function() {
   var username = $("#new-username").val();
   var password = $("#new-password").val();
@@ -331,6 +337,8 @@ $("#signin-button").click(function() {
 
   xhr.addEventListener('load', function() {
     if(xhr.responseText) {
+      userSession.push(xhr.responseText);
+      console.log(userSession);
       swap('opening-screen', 'current');
       $("#user").text(xhr.responseText);
       $("#top").removeClass('hide');
