@@ -444,9 +444,9 @@ $("#profile-search-button").click(function() {
 
   var xhr = new XMLHttpRequest();
   if(selector === 'Beer') {
-    xhr.open('GET', '/search/beer/' + search);
+    xhr.open('GET', '/search/beer/' + search + '/' + userSession);
   } else if(selector === 'Brewery') {
-    xhr.open('GET', '/search/brewery/' + search);
+    xhr.open('GET', '/search/brewery/' + search + '/' + userSession);
   }
   xhr.send();
 

@@ -3,7 +3,7 @@ var Client = require('mongodb').MongoClient;
 var url = 'mongodb://m-rstewart:craft@ds153705.mlab.com:53705/m-rstewart-beer-tracker';
 var profile = express.Router();
 
-profile.get('/beer/:beer', function(req, res) {
+profile.get('/beer/:beer/:user', function(req, res) {
   Client.connect(url, function(error, db) {
     if(error) {
       console.log(error);
@@ -19,7 +19,7 @@ profile.get('/beer/:beer', function(req, res) {
   });
 });
 
-profile.get('/brewery/:brewery', function(req, res) {
+profile.get('/brewery/:brewery/:user', function(req, res) {
   Client.connect(url, function(error, db) {
     if(error) {
       console.log(error);
