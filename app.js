@@ -1,10 +1,9 @@
-var express = require('express');
-var beer = require('./routes/beer.js');
-var login  = require('./routes/login.js');
-var search = require('./routes/profile-search.js');
-var app = express();
-
-var port = process.env.PORT || 3000;
+const express = require('express');
+const beer = require('./routes/beer.js');
+const login  = require('./routes/login.js');
+const search = require('./routes/profile-search.js');
+const app = express();
+const port = process.env.PORT || 3000;
 
 app.use(express.static('./public'));
 app.use('/login', login);
