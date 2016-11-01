@@ -1,4 +1,4 @@
-var userSession = [];
+let userSession = [];
 
 //Chart functionality
 google.charts.load('current', {packages: ['corechart']});
@@ -10,17 +10,22 @@ function drawStyleChart() {
     dataType: "json",
     success: function(json) {
       var data = new google.visualization.DataTable();
+      let styles = [];
+      let unique = [];
+      let chart = new google.visualization.BarChart(document.getElementById('bar-chart'));
+      let options = {
+        'title': 'Your Beers by Style',
+        legend: {position: 'none'}
+      };
+
       data.addColumn('string', 'Style');
       data.addColumn('number', 'Beers');
       data.addColumn({ type: 'string', role: 'style'});
 
-      var styles = [];
-      var unique = [];
-
       function randomColor() {
-        var letters = '0123456789ABCDEF'.split('');
-        var color = '#';
-        for (var i = 0; i < 6; i++ ) {
+        let letters = '0123456789ABCDEF'.split('');
+        let color = '#';
+        for (let i = 0; i < 6; i++ ) {
           color += letters[Math.floor(Math.random() * 16)];
         }
         return color;
@@ -32,26 +37,22 @@ function drawStyleChart() {
       });
 
       //in array styles, sort elements by name and how many times they occur
-      var sorted = _.countBy(styles, _.identity);
+      let sorted = _.countBy(styles, _.identity);
 
       //turn data in var sorted into an acceptable format for google dataTable
       for (var prop in sorted) {
-        var styleAndCount = {};
+        let styleAndCount = {};
         styleAndCount.style = prop;
         styleAndCount.count = sorted[prop];
         unique.push(styleAndCount);
       }
 
-      for (var i = 0; i < unique.length; i++) {
+      for (let i = 0; i < unique.length; i++) {
         data.addRow([unique[i].style, unique[i].count, randomColor()]);
       }
 
-      var options = {
-        'title': 'Your Beers by Style',
-        legend: {position: 'none'}
-      };
-      var chart = new google.visualization.BarChart(document.getElementById('bar-chart'));
       chart.draw(data, options);
+
     }
   });
 }
@@ -62,18 +63,23 @@ function drawBreweryChart() {
     method: "GET",
     dataType: "json",
     success: function(json) {
-      var data = new google.visualization.DataTable();
+      let data = new google.visualization.DataTable();
+      let breweries = [];
+      let unique = [];
+      let chart = new google.visualization.PieChart(document.getElementById('pie-chart'));
+      let options = {
+        title: 'Your Beers by Brewery',
+        legend: {position: 'none'},
+      }
+
       data.addColumn('string', 'Brewery');
       data.addColumn('number', 'Beers');
       data.addColumn({ type: 'string', role: 'style'});
 
-      var breweries = [];
-      var unique = [];
-
       function randomColor() {
-        var letters = '0123456789ABCDEF'.split('');
-        var color = '#';
-        for (var i = 0; i < 6; i++ ) {
+        let letters = '0123456789ABCDEF'.split('');
+        let color = '#';
+        for (let i = 0; i < 6; i++ ) {
           color += letters[Math.floor(Math.random() * 16)];
         }
         return color;
@@ -85,38 +91,39 @@ function drawBreweryChart() {
       });
 
       //in array breweries, sort elements by name and how many times they occur
-      var sorted = _.countBy(breweries, _.identity);
+      let sorted = _.countBy(breweries, _.identity);
 
       //turn data in var sorted into an acceptable format for google dataTable
-      for (var prop in sorted) {
-        var breweryCount = {};
+      for (let prop in sorted) {
+        let breweryCount = {};
         breweryCount.brewery = prop;
         breweryCount.count = sorted[prop];
         unique.push(breweryCount);
       }
 
-      for (var i = 0; i < unique.length; i++) {
+      for (let i = 0; i < unique.length; i++) {
         data.addRow([unique[i].brewery, unique[i].count, randomColor()]);
       }
 
-      var options = {
-        title: 'Your Beers by Brewery',
-        legend: {position: 'none'},
-      };
-
-      var chart = new google.visualization.PieChart(document.getElementById('pie-chart'));
       chart.draw(data, options);
+
     }
   });
 }
 
 //Creates the DOM elements for each search result
 function searchElements(data) {
-  var container = document.createElement('div');
+  let container = document.createElement('div');
+  let image = document.createElement('img');
+  let stats = document.createElement('div');
+  let name = document.createElement('div');
+  let style = document.createElement('div');
+  let abv = document.createElement('div');
+  let checkButton = document.createElement('button');
+
   container.setAttribute('class', 'panel panel-default col-xs-12');
   container.setAttribute('id', 'search-panel');
 
-  var image = document.createElement('img');
   image.setAttribute('class', 'panel-body col-xs-2');
   image.setAttribute('id', 'beer-image');
   if(data.labels) {
@@ -125,15 +132,9 @@ function searchElements(data) {
     image.src = '/images/icon-not-found.png';
   }
 
-  var stats = document.createElement('div');
   stats.setAttribute('class', 'panel-body col-xs-8');
 
-  var name = document.createElement('div');
   name.setAttribute('id', 'beer-name');
-
-  var style = document.createElement('div');
-  var abv = document.createElement('div');
-
   name.textContent = data.name + " -- " + data.breweries[0].name;
 
   //Accounts for missing styles in brewdb
@@ -151,7 +152,6 @@ function searchElements(data) {
   }
 
   //Allows check image to be used as button
-  var checkButton = document.createElement('button');
   checkButton.setAttribute('type', 'button');
   checkButton.setAttribute('class', 'btn btn-warning pull-right check-button');
   checkButton.setAttribute('id', data.id);
