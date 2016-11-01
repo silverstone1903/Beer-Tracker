@@ -9,7 +9,7 @@ function drawStyleChart() {
     method: "GET",
     dataType: "json",
     success: function(json) {
-      var data = new google.visualization.DataTable();
+      let data = new google.visualization.DataTable();
       let styles = [];
       let unique = [];
       let chart = new google.visualization.BarChart(document.getElementById('bar-chart'));
@@ -452,7 +452,7 @@ $("#profile-search-button").click(function() {
   } else if(selector === 'Brewery') {
     xhr.open('GET', '/search/brewery/' + search + '/' + userSession);
   }
-  
+
   xhr.send();
 
   xhr.addEventListener('load', function() {

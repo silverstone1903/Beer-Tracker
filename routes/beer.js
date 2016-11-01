@@ -1,10 +1,10 @@
-var express = require('express');
-var BreweryDb = require('brewerydb-node');
-var brewdb = new BreweryDb('e49034113c1766216d75b6cb58535cf7');
-var bodyParser = require('body-parser');
-var Client = require('mongodb').MongoClient;
-var url = 'mongodb://m-rstewart:craft@ds153705.mlab.com:53705/m-rstewart-beer-tracker';
-var beer = express.Router();
+const express = require('express');
+const BreweryDb = require('brewerydb-node');
+const brewdb = new BreweryDb('e49034113c1766216d75b6cb58535cf7');
+const bodyParser = require('body-parser');
+const Client = require('mongodb').MongoClient;
+const url = 'mongodb://m-rstewart:craft@ds153705.mlab.com:53705/m-rstewart-beer-tracker';
+const beer = express.Router();
 
 beer.use(bodyParser.json());
 
@@ -21,7 +21,7 @@ beer.get('/profile/:user', function(req, res) {
     if(error) {
       console.log(error);
     } else {
-      var collection = db.collection('checkIns');
+      let collection = db.collection('checkIns');
       collection
       .find({ "user" : req.params.user})
       .toArray(function(error, documents) {
@@ -38,10 +38,11 @@ beer.post('/checkin/:id', function(req, res) {
     if(error) {
       console.log(error);
     } else {
-      var collection = db.collection('checkIns');
+      let collection = db.collection('checkIns');
 
       brewdb.beer.getById(req.params.id, { withBreweries: 'Y' }, function(err, data) {
-        var checkIn = {};
+        let checkIn = {};
+
         checkIn.user = req.body.user;
         checkIn.style = data.style.name;
         checkIn.name = data.name;
@@ -68,9 +69,9 @@ beer.post('/add', function(req, res) {
     if(error) {
       console.log(error);
     } else {
-      var collection = db.collection('checkIns');
+      let collection = db.collection('checkIns');
+      let checkIn = {};
 
-      var checkIn = {};
       checkIn.user = req.body.user;
       checkIn.name = req.body.name;
       checkIn.brewery = req.body.brewery;
