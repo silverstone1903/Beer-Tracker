@@ -3,7 +3,7 @@ let userSession = [];
 //Chart functionality
 google.charts.load('current', {packages: ['corechart']});
 
-function drawStyleChart() {
+let drawStyleChart = () => {
   $.ajax({
     url: "beer/profile/" + userSession,
     method: "GET",
@@ -57,7 +57,7 @@ function drawStyleChart() {
   });
 }
 
-function drawBreweryChart() {
+let drawBreweryChart = () => {
   $.ajax({
     url: "beer/profile/" + userSession,
     method: "GET",
@@ -112,7 +112,7 @@ function drawBreweryChart() {
 }
 
 //Creates the DOM elements for each search result
-function searchElements(data) {
+let searchElements = data => {
   let container = document.createElement('div');
   let image = document.createElement('img');
   let stats = document.createElement('div');
@@ -170,7 +170,7 @@ function searchElements(data) {
 }
 
 //Creates the DOM layout for the recent beers on profile page
-function recentElements(data) {
+let recentElements = data => {
   let container = document.createElement('div');
   let names = document.createElement('div');
   let style = document.createElement('div');
@@ -221,7 +221,7 @@ function recentElements(data) {
 }
 
 //Toggles current page view
-function swap(next) {
+let swap = next => {
   let currentView = document.getElementsByClassName('current');
   currentView[0].classList.add('hide');
   currentView[0].classList.remove('current');
@@ -232,10 +232,10 @@ function swap(next) {
 }
 
 //Provides number of total beers checked-in on profile
-function totalCount(data) {
+let totalCount = data => {
   let number = document.getElementById('total-checkins');
   let counter = 0;
-  data.forEach(function(beer) {
+  data.forEach(beer => {
     counter++;
   });
 
@@ -244,10 +244,10 @@ function totalCount(data) {
 }
 
 //Provides number of unique beers checked-in
-function uniqueCount(data) {
+let uniqueCount = data => {
   let number = document.getElementById('unique-beers');
   let unique = [];
-  data.forEach(function(i) {
+  data.forEach(i => {
     if (unique.indexOf(i.name) == -1) {
       unique.push(i.name);
     }
@@ -258,14 +258,14 @@ function uniqueCount(data) {
 
 //Takes input from search bar and sends request to brewdb.  Returned info is then styled
 //on the search results page
-function submitSearch() {
+let submitSearch = () => {
   let beerSearch = document.getElementById('beer-search').value;
   let xhr = new XMLHttpRequest();
 
   xhr.open('GET', '/beer/search/:' + beerSearch);
   xhr.send();
 
-  xhr.addEventListener('load', function() {
+  xhr.addEventListener('load', () => {
     let results = document.getElementById('results');
     let searchResults = JSON.parse(xhr.responseText);
     let noBeerModal = document.createElement('a');
@@ -284,7 +284,7 @@ function submitSearch() {
     if(searchResults === null) {
       results.appendChild(noBeerModal);
     } else {
-      searchResults.forEach(function(i) {
+      searchResults.forEach(i => {
         results.appendChild(searchElements(i));
       });
     }
@@ -367,14 +367,14 @@ $("#profile-link").click(function() {
   xhr.open('GET', '/beer/profile/' + userSession[0]);
   xhr.send();
 
-  xhr.addEventListener('load', function(){
+  xhr.addEventListener('load', function() {
     let beers = JSON.parse(xhr.responseText);
 
     $("#recent-beers").empty();
     totalCount(beers);
     uniqueCount(beers);
 
-    beers.forEach(function(i) {
+    beers.forEach(i => {
       $("#recent-beers").append(recentElements(i));
     });
   });
@@ -462,7 +462,7 @@ $("#profile-search-button").click(function() {
     if(beers.length === 0) {
       $("#recent-beers").append("<p>Not found. Please check your spelling/case and make sure you are using the right search selector</p>");
     } else {
-      beers.forEach(function(i) {
+      beers.forEach(i => {
         $("#recent-beers").append(recentElements(i));
       });
     }
