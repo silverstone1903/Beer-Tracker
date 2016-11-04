@@ -1,8 +1,8 @@
-var express = require('express');
-var bodyParser = require('body-parser');
-var Client = require('mongodb').MongoClient;
-var url = 'mongodb://m-rstewart:craft@ds153705.mlab.com:53705/m-rstewart-beer-tracker';
-var login = express.Router();
+const express = require('express');
+const bodyParser = require('body-parser');
+const Client = require('mongodb').MongoClient;
+const url = 'mongodb://m-rstewart:craft@ds153705.mlab.com:53705/m-rstewart-beer-tracker';
+const login = express.Router();
 
 login.use(bodyParser.json());
 
@@ -11,12 +11,13 @@ login.post('/', function(req,res) {
     if(error) {
       console.log(error);
     } else {
-      var collection = db.collection('users');
-      var username = req.body.username;
-      var password = req.body.password;
+      let collection = db.collection('users');
+      let username = req.body.username;
+      let password = req.body.password;
+
       collection.find({ "name": username })
       .toArray(function(error, documents) {
-        var results = documents;
+        let results = documents;
 
         if(results[0].password === password) {
           res.send(username);
@@ -31,7 +32,7 @@ login.post('/', function(req,res) {
 });
 
 login.post('/new', function(req, res) {
-  var account = {};
+  let account = {};
 
   account.name = req.body.username;
   account.password = req.body.password;
@@ -41,8 +42,8 @@ login.post('/new', function(req, res) {
     if(error) {
       console.log(error);
     } else {
-      var collection = db.collection('users');
-      var results = [];
+      let collection = db.collection('users');
+      let results = [];
 
       collection.find({ "email": req.body.email })
       .toArray(function(error, documents) {

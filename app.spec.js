@@ -1,9 +1,9 @@
-var assert = require('chai').assert;
-var request = require('request');
+const assert = require('chai').assert;
+const request = require('request');
 
 describe('Test the REST API', function() {
-  var Client = require('mongodb').MongoClient;
-  var url = 'mongodb://m-rstewart:craft@ds153705.mlab.com:53705/m-rstewart-beer-tracker';
+  const Client = require('mongodb').MongoClient;
+  const url = 'mongodb://m-rstewart:craft@ds153705.mlab.com:53705/m-rstewart-beer-tracker';
 
   describe('CREATE', function() {
     it('expects an ID', function(done) {
