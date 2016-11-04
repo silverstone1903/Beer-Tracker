@@ -221,7 +221,7 @@ function recentElements(data) {
 }
 
 //Toggles current page view
-function swap(next, current) {
+function swap(next) {
   let currentView = document.getElementsByClassName('current');
   currentView[0].classList.add('hide');
   currentView[0].classList.remove('current');
