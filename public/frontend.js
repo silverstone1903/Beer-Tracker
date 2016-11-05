@@ -373,6 +373,7 @@ $("#profile-link").click(function() {
     $("#recent-beers").empty();
     totalCount(beers);
     uniqueCount(beers);
+    $("#user-welcome").text(userSession[0]);
 
     beers.forEach(i => {
       $("#recent-beers").append(recentElements(i));
