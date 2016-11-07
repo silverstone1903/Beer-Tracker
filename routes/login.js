@@ -17,14 +17,23 @@ login.post('/', function(req,res) {
 
       collection.find({ "name": username })
       .toArray(function(error, documents) {
-        let results = documents;
-
-        if(results[0].password === password) {
-          res.send(username);
-          db.close();
+        if(error) {
+          console.log(error);
         } else {
-          res.send();
-          db.close();
+          let results = documents;
+
+          if(results[0]) {
+            if(results[0].password === password) {
+              res.send(username);
+              db.close();
+            } else {
+              res.send();
+              db.close();
+            }
+          } else {
+            db.close()
+            res.send();
+          }
         }
       });
     }
