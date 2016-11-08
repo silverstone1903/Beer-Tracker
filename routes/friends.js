@@ -6,8 +6,24 @@ const friends = express.Router();
 
 friends.use(bodyParser.json());
 
-friends.get('/', function(req, res) {
-  //friends
+friends.get('/:user', function(req, res) {
+  Client.connect(url, function(error, db) {
+    if(error) {
+      console.log(error);
+    } else {
+      let collection = db.collection('users');
+      collection.find({ "name": req.params.user})
+      .toArray(function(error, documents) {
+        if(documents[0].friends.length > 0) {
+          res.json(documents[0].friends);
+          db.close();
+        } else {
+          res.send('No friends found');
+          db.close();
+        }
+      });
+    }
+  });
 });
 
 module.exports = friends;
