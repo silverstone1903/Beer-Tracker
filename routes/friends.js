@@ -26,4 +26,15 @@ friends.get('/:user', function(req, res) {
   });
 });
 
+friends.post('/:user', function(req, res) {
+  Client.connect(url, function(error, db) {
+    if(error) {
+      console.log(error);
+    } else {
+      let collection = db.collection('users');
+      //Add friend
+    }
+  });
+});
+
 module.exports = friends;
