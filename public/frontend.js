@@ -397,6 +397,16 @@ $("#results").click(function(e) {
   }
 });
 
+$("#friends-link").click(function() {
+  let xhr = new XMLHttpRequest();
+  xhr.open('GET', '/friends/' + friend);
+  xhr.send();
+
+  xhr.addEventListener('load', function() {
+    //function for displaying each friend on friends page
+  });
+});
+
 //Sends the beer ID and user input to the checkin route
 var submitCheckIn = document.getElementsByClassName('beer-submit')[0];
 submitCheckIn.addEventListener('click', function(e) {
