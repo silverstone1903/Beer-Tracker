@@ -404,6 +404,8 @@ $("#friends-link").click(function() {
 
   xhr.addEventListener('load', function() {
     //function for displaying each friend on friends page
+    console.log(xhr.responseText);
+    swap('user-friends', 'current');
   });
 });
 
