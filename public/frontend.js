@@ -399,7 +399,7 @@ $("#results").click(function(e) {
 
 $("#friends-link").click(function() {
   let xhr = new XMLHttpRequest();
-  xhr.open('GET', '/friends/' + friend);
+  xhr.open('GET', '/friends/' + userSession[0]);
   xhr.send();
 
   xhr.addEventListener('load', function() {
