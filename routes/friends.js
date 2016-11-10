@@ -37,4 +37,15 @@ friends.post('/:user', function(req, res) {
   });
 });
 
+friends.delete('/:user/:friend', function(req, res) {
+  Client.connect(url, function(error, db) {
+    if(error) {
+      console.log(error);
+    } else {
+      let collection = db.collection('users');
+      //Delete logic
+    }
+  })
+});
+
 module.exports = friends;

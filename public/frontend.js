@@ -307,7 +307,7 @@ let friendsList = (data) => {
   user.textContent = data;
 
   glyph.setAttribute('class', 'glyphicon glyphicon-remove pull-right');
-
+  glyph.setAttribute('id', "remove-" + data);
   container.appendChild(user);
   user.appendChild(glyph);
 
