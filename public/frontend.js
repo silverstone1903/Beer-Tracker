@@ -298,13 +298,18 @@ let submitSearch = () => {
 
 let friendsList = (data) => {
   let container = document.createElement('div');
+  let glyph = document.createElement('span');
+  let user = document.createElement('div');
+
   container.setAttribute('class', 'panel panel-default');
 
-  let user = document.createElement('div');
   user.setAttribute('class', 'panel-body');
   user.textContent = data;
 
+  glyph.setAttribute('class', 'glyphicon glyphicon-remove pull-right');
+
   container.appendChild(user);
+  user.appendChild(glyph);
 
   return container;
 

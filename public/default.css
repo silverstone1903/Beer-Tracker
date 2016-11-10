@@ -19,6 +19,11 @@
   cursor: pointer;
 }
 
+.glyphicon {
+  color: red;
+  cursor: pointer;
+}
+
 #signin-img {
   position: relative;
   left: 2px;
