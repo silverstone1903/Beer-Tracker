@@ -18,7 +18,7 @@ friends.get('/:user', function(req, res) {
           res.json(documents[0].friends);
           db.close();
         } else {
-          res.send('No friends found');
+          res.send();
           db.close();
         }
       });

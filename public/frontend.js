@@ -296,6 +296,20 @@ let submitSearch = () => {
   swap('results', 'current');
 }
 
+let friendsList = (data) => {
+  let container = document.createElement('div');
+  container.setAttribute('class', 'panel panel-default');
+
+  let user = document.createElement('div');
+  user.setAttribute('class', 'panel-body');
+  user.textContent = data;
+
+  container.appendChild(user);
+
+  return container;
+
+}
+
 //--------------------------------------------------------------
 //Begin event listeners
 //--------------------------------------------------------------
@@ -403,8 +417,14 @@ $("#friends-link").click(function() {
   xhr.send();
 
   xhr.addEventListener('load', function() {
-    //function for displaying each friend on friends page
-    console.log(xhr.responseText);
+    if(xhr.responseText) {
+      let friends = JSON.parse(xhr.responseText);
+      friends.forEach(function(friend) {
+        $("#friends-list").append(friendsList(friend));
+      });
+    } else {
+      $("#friends-list").text("No friends found");
+    }
     swap('user-friends', 'current');
   });
 });
