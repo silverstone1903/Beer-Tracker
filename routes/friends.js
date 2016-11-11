@@ -26,13 +26,25 @@ friends.get('/:user', function(req, res) {
   });
 });
 
-friends.post('/:user', function(req, res) {
+friends.post('/:user/:friend', function(req, res) {
   Client.connect(url, function(error, db) {
     if(error) {
       console.log(error);
     } else {
       let collection = db.collection('users');
-      //Add friend
+      collection.updateOne(
+        { "name": req.params.user },
+        { $push: { "friends": req.params.friend} },
+        function(error, results) {
+          if(error) {
+            console.log(error);
+          } else {
+            db.close();
+            console.log(req.params.friend + " added to" + req.params.user + "\'s friends list");
+            res.send(req.params.friend + " added");
+          }
+        }
+      );
     }
   });
 });
