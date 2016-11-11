@@ -43,9 +43,20 @@ friends.delete('/:user/:friend', function(req, res) {
       console.log(error);
     } else {
       let collection = db.collection('users');
-      //Delete logic
-    }
-  })
-});
+      collection.updateOne(
+        { "name": req.params.user },
+        { $pull: { "friends": req.params.friend } },
+        function(error, results) {
+          if(error) {
+            console.log(error);
+          } else {
+            db.close();
+            console.log("Removed " + req.params.friend + " from " + req.params.user);
+            res.send('Deleted');
+          }
+        });
+      }
+    });
+  });
 
 module.exports = friends;

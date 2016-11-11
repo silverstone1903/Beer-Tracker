@@ -416,6 +416,25 @@ $("#results").click(function(e) {
   }
 });
 
+$("#friends-list").click(function(e) {
+  if(e.target.getAttribute('class') === 'glyphicon glyphicon-remove pull-right') {
+    let id = e.target.getAttribute('id').toString().split('-');
+    let friend = id[1];
+    let xhr = new XMLHttpRequest();
+
+    xhr.open('DELETE', '/friends/' + userSession[0] + '/' + friend);
+    xhr.send();
+
+    xhr.addEventListener('load', function() {
+      if(xhr.responseText) {
+        console.log(friend + ' is no longer a friend');
+      } else {
+        console.log('Error');
+      }
+    });
+  }
+});
+
 $("#friends-link").click(function() {
   let xhr = new XMLHttpRequest();
   xhr.open('GET', '/friends/' + userSession[0]);
