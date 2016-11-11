@@ -303,7 +303,8 @@ let friendsList = (data) => {
 
   container.setAttribute('class', 'panel panel-default');
 
-  user.setAttribute('class', 'panel-body');
+  user.setAttribute('class', 'panel-body friends-panel');
+  user.setAttribute('id', data);
   user.textContent = data;
 
   glyph.setAttribute('class', 'glyphicon glyphicon-remove pull-right');
@@ -431,6 +432,19 @@ $("#friends-list").click(function(e) {
       } else {
         console.log('Error');
       }
+    });
+  }
+
+  if(e.target.getAttribute('class') === 'panel-body friends-panel') {
+    let friend = e.target.getAttribute('id');
+    console.log(friend);
+    let xhr = new XMLHttpRequest();
+
+    xhr.open('GET', '/beer/profile/' + friend);
+    xhr.send();
+
+    xhr.addEventListener('load', function() {
+      console.log(xhr.responseText);
     });
   }
 });
