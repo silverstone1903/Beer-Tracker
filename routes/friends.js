@@ -54,9 +54,10 @@ friends.delete('/:user/:friend', function(req, res) {
             console.log("Removed " + req.params.friend + " from " + req.params.user);
             res.send('Deleted');
           }
-        });
-      }
-    });
+        }
+      );
+    }
   });
+});
 
 module.exports = friends;
