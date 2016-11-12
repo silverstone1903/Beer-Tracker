@@ -444,7 +444,17 @@ $("#friends-list").click(function(e) {
     xhr.send();
 
     xhr.addEventListener('load', function() {
-      console.log(xhr.responseText);
+      let beers = JSON.parse(xhr.responseText);
+      $("#friends-checkins").empty();
+      console.log(beers);
+
+      if(beers.length === 0) {
+        $("#friends-checkins").text(friend + " has no checkins");
+      } else {
+        beers.forEach(function(beer) {
+          $("#friends-checkins").append(recentElements(beer));
+        });
+      }
     });
   }
 });
