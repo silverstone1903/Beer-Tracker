@@ -461,6 +461,10 @@ $("#friends-list").click(function(e) {
 
 $("#friends-link").click(function() {
   let xhr = new XMLHttpRequest();
+
+  $("#friends-list").empty();
+  $("#friends-checkins").empty();
+
   xhr.open('GET', '/friends/' + userSession[0]);
   xhr.send();
 
