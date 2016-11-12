@@ -428,6 +428,7 @@ $("#friends-list").click(function(e) {
 
     xhr.addEventListener('load', function() {
       if(xhr.responseText) {
+        $(e.target).parent().parent().remove();
         console.log(friend + ' is no longer a friend');
       } else {
         console.log('Error');
