@@ -24,6 +24,10 @@
   cursor: pointer;
 }
 
+.friends-panel {
+  cursor: pointer;
+}
+
 #signin-img {
   position: relative;
   left: 2px;
