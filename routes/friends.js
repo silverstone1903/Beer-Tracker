@@ -41,7 +41,7 @@ friends.get('/search/:user', function(req, res) {
             res.json(documents);
             db.close();
           } else {
-            res.send();
+            res.send('User not found');
             db.close();
           }
         }
