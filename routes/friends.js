@@ -12,7 +12,7 @@ friends.get('/:user', function(req, res) {
       console.log(error);
     } else {
       let collection = db.collection('users');
-      collection.find({ "name": req.params.user})
+      collection.find({ "name": req.params.user })
       .toArray(function(error, documents) {
         if(documents[0].friends.length > 0) {
           res.json(documents[0].friends);
@@ -20,6 +20,30 @@ friends.get('/:user', function(req, res) {
         } else {
           res.send();
           db.close();
+        }
+      });
+    }
+  });
+});
+
+friends.get('/search/:user', function(req, res) {
+  Client.connect(url, function(error, db) {
+    if(error) {
+      console.log(error);
+    } else {
+      let collection = db.collection('users');
+      collection.find({ "name": req.params.user })
+      .toArray(function(error, documents) {
+        if(error) {
+          console.log(error);
+        } else {
+          if(documents.length > 0) {
+            res.json(documents);
+            db.close();
+          } else {
+            res.send();
+            db.close();
+          }
         }
       });
     }

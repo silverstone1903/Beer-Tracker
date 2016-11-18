@@ -460,6 +460,18 @@ $("#friends-list").click(function(e) {
   }
 });
 
+$("#friends-button").click(function() {
+  let friend = $("#friends-search").val();
+  let xhr = new XMLHttpRequest();
+
+  xhr.open('GET', '/friends/search/' + friend);
+  xhr.send();
+
+  xhr.addEventListener('load', function() {
+    console.log(xhr.responseText);
+  });
+});
+
 $("#friends-link").click(function() {
   let xhr = new XMLHttpRequest();
 
