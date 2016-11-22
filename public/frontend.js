@@ -318,19 +318,24 @@ let friendsList = (data) => {
 
 let styleConfirmation = (data) => {
   let container = document.createElement('div');
+  let friend = document.createElement('div');
   let accept = document.createElement('span');
   let deny = document.createElement('span');
 
-  container.textContent = "Do you want to add " + data + " as a friend?";
+  container.setAttribute('class', 'panel panel-default');
 
-  accept.setAttribute('class', 'glyphicon glyphicon-ok');
+  friend.setAttribute('class', 'panel-body');
+  friend.textContent = "Do you want to add " + data + " as a friend?";
+
+  accept.setAttribute('class', 'glyphicon glyphicon-ok pull-right');
   accept.setAttribute('id', 'friend-accept');
 
-  deny.setAttribute('class', 'glyphicon glyphicon-remove');
+  deny.setAttribute('class', 'glyphicon glyphicon-remove pull-right');
   deny.setAttribute('id', 'friend-deny');
 
-  container.appendChild(accept);
-  container.appendChild(deny);
+  friend.appendChild(accept);
+  friend.appendChild(deny);
+  container.appendChild(friend);
 
   return container;
 }
@@ -489,7 +494,8 @@ $("#friends-button").click(function() {
   xhr.addEventListener('load', function() {
     let potentialFriend = xhr.responseText;
     $("#friend-confirmation").empty();
-    if (potentialFriend !== 'User not found') {
+
+    if(potentialFriend !== 'User not found') {
       $("#friend-confirmation").append(styleConfirmation(potentialFriend));
     } else {
       $("#friend-confirmation").text('User not Found');
