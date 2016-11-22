@@ -296,6 +296,54 @@ let submitSearch = () => {
   swap('results', 'current');
 }
 
+let friendsList = data => {
+  let container = document.createElement('div');
+  let glyph = document.createElement('span');
+  let user = document.createElement('div');
+
+  container.setAttribute('class', 'panel panel-default');
+
+  user.setAttribute('class', 'panel-body friends-panel');
+  user.setAttribute('id', data);
+  user.textContent = data;
+
+  glyph.setAttribute('class', 'glyphicon glyphicon-remove pull-right remove');
+  glyph.setAttribute('id', "remove-" + data);
+  container.appendChild(user);
+  user.appendChild(glyph);
+
+  return container;
+
+}
+
+let styleConfirmation = data => {
+  let container = document.createElement('div');
+  let friend = document.createElement('div');
+  let wrap = document.createElement('div');
+  let accept = document.createElement('span');
+  let deny = document.createElement('span');
+
+  container.setAttribute('class', 'panel panel-default');
+
+  friend.setAttribute('class', 'panel-body');
+  friend.textContent = "Do you want to add " + data + " as a friend?";
+
+  wrap.setAttribute('class', 'pull-right');
+
+  accept.setAttribute('class', 'glyphicon glyphicon-ok accept');
+  accept.setAttribute('id', data + '-accept');
+
+  deny.setAttribute('class', 'glyphicon glyphicon-remove remove');
+  deny.setAttribute('id', 'friend-deny');
+
+  wrap.appendChild(accept);
+  wrap.appendChild(deny);
+  friend.appendChild(wrap);
+  container.appendChild(friend);
+
+  return container;
+}
+
 //--------------------------------------------------------------
 //Begin event listeners
 //--------------------------------------------------------------
@@ -394,6 +442,111 @@ $("#results").click(function(e) {
   if (e.target.getAttribute('class') == 'btn btn-warning pull-right check-button'){
     let modalSubmit = document.getElementsByClassName('beer-submit')[0];
     modalSubmit.setAttribute('id', e.target.getAttribute('id'));
+  }
+});
+
+$("#friends-list").click(function(e) {
+  if(e.target.getAttribute('class') === 'glyphicon glyphicon-remove pull-right') {
+    let id = e.target.getAttribute('id').toString().split('-');
+    let friend = id[1];
+    let xhr = new XMLHttpRequest();
+
+    xhr.open('DELETE', '/friends/' + userSession[0] + '/' + friend);
+    xhr.send();
+
+    xhr.addEventListener('load', function() {
+      if(xhr.responseText) {
+        $(e.target).parent().parent().remove();
+        console.log(friend + ' is no longer a friend');
+      } else {
+        console.log('Error');
+      }
+    });
+  }
+
+  if(e.target.getAttribute('class') === 'panel-body friends-panel') {
+    let friend = e.target.getAttribute('id');
+    console.log(friend);
+    let xhr = new XMLHttpRequest();
+
+    xhr.open('GET', '/beer/profile/' + friend);
+    xhr.send();
+
+    xhr.addEventListener('load', function() {
+      let beers = JSON.parse(xhr.responseText);
+      $("#friends-checkins").empty();
+      console.log(beers);
+
+      if(beers.length === 0) {
+        $("#friends-checkins").text(friend + " has no checkins");
+      } else {
+        beers.forEach(function(beer) {
+          $("#friends-checkins").append(recentElements(beer));
+        });
+      }
+    });
+  }
+});
+
+$("#friends-button").click(function() {
+  let friend = $("#friends-search").val();
+  let xhr = new XMLHttpRequest();
+
+  xhr.open('GET', '/friends/search/' + friend);
+  xhr.send();
+
+  xhr.addEventListener('load', function() {
+    let potentialFriend = xhr.responseText;
+    $("#friend-confirmation").empty();
+
+    if(potentialFriend !== 'User not found') {
+      $("#friend-confirmation").append(styleConfirmation(potentialFriend));
+    } else {
+      $("#friend-confirmation").text('User not Found');
+    }
+  });
+});
+
+$("#friends-link").click(function() {
+  let xhr = new XMLHttpRequest();
+
+  $("#friends-list").empty();
+  $("#friends-checkins").empty();
+  $("#friend-confirmation").empty();
+
+  xhr.open('GET', '/friends/' + userSession[0]);
+  xhr.send();
+
+  xhr.addEventListener('load', function() {
+    if(xhr.responseText) {
+      let friends = JSON.parse(xhr.responseText);
+      friends.forEach(function(friend) {
+        $("#friends-list").append(friendsList(friend));
+      });
+    } else {
+      $("#friends-list").text("No friends found");
+    }
+    swap('user-friends', 'current');
+  });
+});
+
+$("#friend-confirmation").click(function(e) {
+  if(e.target.getAttribute('class') === 'glyphicon glyphicon-ok accept') {
+    let id = e.target.getAttribute('id').toString().split('-');
+    let friend = id[0];
+    let xhr = new XMLHttpRequest();
+
+    xhr.open('POST', '/friends/' + userSession[0] + '/' + friend);
+    xhr.send();
+
+    xhr.addEventListener('load', function() {
+      $("#friends-list").append(friendsList(friend));
+      $("#friend-confirmation").empty();
+    });
+  }
+
+  if(e.target.getAttribute('class') === 'glyphicon glyphicon-remove remove') {
+    $("#friend-confirmation").empty();
   }
 });
 

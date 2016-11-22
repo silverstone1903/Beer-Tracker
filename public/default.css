@@ -19,6 +19,21 @@
   cursor: pointer;
 }
 
+.remove {
+  color: red;
+  cursor: pointer;
+}
+
+.accept {
+  margin-right: 10px;
+  color: green;
+  cursor: pointer;
+}
+
+.friends-panel {
+  cursor: pointer;
+}
+
 #signin-img {
   position: relative;
   left: 2px;
@@ -28,8 +43,6 @@
   position: relative;
   top: 9px;
 }
-
-#beer-search { width:430px !important; }
 
 #beer-image {
   max-width: 100px;
@@ -46,6 +59,7 @@
   font-size: 15px;
 }
 
+#beer-search { width:430px !important; }
 #login-message { color: red; }
 #search-panel { background-color: rgb(242, 242, 242); }
 #pie-chart { height: 500px; }
