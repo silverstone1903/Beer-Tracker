@@ -331,7 +331,7 @@ let styleConfirmation = data => {
   wrap.setAttribute('class', 'pull-right');
 
   accept.setAttribute('class', 'glyphicon glyphicon-ok accept');
-  accept.setAttribute('id', 'friend-accept');
+  accept.setAttribute('id', data + '-accept');
 
   deny.setAttribute('class', 'glyphicon glyphicon-remove remove');
   deny.setAttribute('id', 'friend-deny');
@@ -512,6 +512,7 @@ $("#friends-link").click(function() {
 
   $("#friends-list").empty();
   $("#friends-checkins").empty();
+  $("#friend-confirmation").empty();
 
   xhr.open('GET', '/friends/' + userSession[0]);
   xhr.send();
@@ -527,6 +528,26 @@ $("#friends-link").click(function() {
     }
     swap('user-friends', 'current');
   });
+});
+
+$("#friend-confirmation").click(function(e) {
+  if(e.target.getAttribute('class') === 'glyphicon glyphicon-ok accept') {
+    let id = e.target.getAttribute('id').toString().split('-');
+    let friend = id[0];
+    let xhr = new XMLHttpRequest();
+
+    xhr.open('POST', '/friends/' + userSession[0] + '/' + friend);
+    xhr.send();
+
+    xhr.addEventListener('load', function() {
+      $("#friends-list").append(friendsList(friend));
+      $("#friend-confirmation").empty();
+    });
+  }
+
+  if(e.target.getAttribute('class') === 'glyphicon glyphicon-remove remove') {
+    $("#friend-confirmation").empty();
+  }
 });
 
 //Sends the beer ID and user input to the checkin route
