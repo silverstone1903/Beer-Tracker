@@ -316,6 +316,25 @@ let friendsList = (data) => {
 
 }
 
+let styleConfirmation = (data) => {
+  let container = document.createElement('div');
+  let accept = document.createElement('span');
+  let deny = document.createElement('span');
+
+  container.textContent = "Do you want to add " + data + " as a friend?";
+
+  accept.setAttribute('class', 'glyphicon glyphicon-ok');
+  accept.setAttribute('id', 'friend-accept');
+
+  deny.setAttribute('class', 'glyphicon glyphicon-remove');
+  deny.setAttribute('id', 'friend-deny');
+
+  container.appendChild(accept);
+  container.appendChild(deny);
+
+  return container;
+}
+
 //--------------------------------------------------------------
 //Begin event listeners
 //--------------------------------------------------------------
@@ -468,7 +487,13 @@ $("#friends-button").click(function() {
   xhr.send();
 
   xhr.addEventListener('load', function() {
-    console.log(xhr.responseText);
+    let potentialFriend = xhr.responseText;
+    $("#friend-confirmation").empty();
+    if (potentialFriend !== 'User not found') {
+      $("#friend-confirmation").append(styleConfirmation(potentialFriend));
+    } else {
+      $("#friend-confirmation").text('User not Found');
+    }
   });
 });
 
