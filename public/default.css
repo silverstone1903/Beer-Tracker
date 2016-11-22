@@ -19,8 +19,14 @@
   cursor: pointer;
 }
 
-.glyphicon {
+.remove {
   color: red;
+  cursor: pointer;
+}
+
+.accept {
+  margin-right: 10px;
+  color: green;
   cursor: pointer;
 }
 

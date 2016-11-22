@@ -296,7 +296,7 @@ let submitSearch = () => {
   swap('results', 'current');
 }
 
-let friendsList = (data) => {
+let friendsList = data => {
   let container = document.createElement('div');
   let glyph = document.createElement('span');
   let user = document.createElement('div');
@@ -307,7 +307,7 @@ let friendsList = (data) => {
   user.setAttribute('id', data);
   user.textContent = data;
 
-  glyph.setAttribute('class', 'glyphicon glyphicon-remove pull-right');
+  glyph.setAttribute('class', 'glyphicon glyphicon-remove pull-right remove');
   glyph.setAttribute('id', "remove-" + data);
   container.appendChild(user);
   user.appendChild(glyph);
@@ -316,9 +316,10 @@ let friendsList = (data) => {
 
 }
 
-let styleConfirmation = (data) => {
+let styleConfirmation = data => {
   let container = document.createElement('div');
   let friend = document.createElement('div');
+  let wrap = document.createElement('div');
   let accept = document.createElement('span');
   let deny = document.createElement('span');
 
@@ -327,14 +328,17 @@ let styleConfirmation = (data) => {
   friend.setAttribute('class', 'panel-body');
   friend.textContent = "Do you want to add " + data + " as a friend?";
 
-  accept.setAttribute('class', 'glyphicon glyphicon-ok pull-right');
+  wrap.setAttribute('class', 'pull-right');
+
+  accept.setAttribute('class', 'glyphicon glyphicon-ok accept');
   accept.setAttribute('id', 'friend-accept');
 
-  deny.setAttribute('class', 'glyphicon glyphicon-remove pull-right');
+  deny.setAttribute('class', 'glyphicon glyphicon-remove remove');
   deny.setAttribute('id', 'friend-deny');
 
-  friend.appendChild(accept);
-  friend.appendChild(deny);
+  wrap.appendChild(accept);
+  wrap.appendChild(deny);
+  friend.appendChild(wrap);
   container.appendChild(friend);
 
   return container;
