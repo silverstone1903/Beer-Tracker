@@ -54,16 +54,18 @@ login.post('/new', function(req, res) {
       let collection = db.collection('users');
       let results = [];
 
-      collection.find({ "email": req.body.email })
+      collection.find({ $or: [ { "name": req.body.username }, { "email": req.body.email}]})
       .toArray(function(error, documents) {
         results.push(JSON.stringify(documents));
-
+        //if it finds something, Unsuccessful.  If it finds nothing, Successful
         if(results[0] !== '[]') {
           db.close();
+          console.log('Unsuccessful');
           res.send('Unsuccessful');
         } else {
           collection.insert(account);
           db.close();
+          console.log('Successful');
           res.send('Successful');
         }
       });
