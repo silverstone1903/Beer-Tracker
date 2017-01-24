@@ -82,7 +82,7 @@ beer.post('/add', function(req, res) {
       checkIn.location = req.body.location;
       checkIn.date = req.body.date;
       checkIn.rating = req.body.rating;
-      checkIn.toats = 0
+      checkIn.toasts = 0
 
       collection.insert(checkIn);
       db.close();
