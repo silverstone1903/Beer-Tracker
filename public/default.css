@@ -54,6 +54,10 @@
   color: rgb(204, 0, 0);
 }
 
+#toast-button {
+  color: rgb(255, 205, 5);
+}
+
 #recent-style {
   color: black;
   font-size: 15px;

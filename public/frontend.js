@@ -180,12 +180,16 @@ let recentElements = data => {
   let location = document.createElement('div');
   let date = document.createElement('div');
   let notes = document.createElement('div');
+  let toast = document.createElement('span');
 
   container.setAttribute('class', 'panel panel-default');
 
   names.setAttribute('class', 'panel-heading text-center');
   names.setAttribute('id', 'beer-name');
   names.textContent = data.name + ' -- ' + data.brewery;
+
+  toast.setAttribute('class', 'glyphicon glyphicon-thumbs-up pull-right');
+  toast.setAttribute('id', 'toast-button');
 
   style.setAttribute('id', 'recent-style');
   style.textContent = data.style;
@@ -211,6 +215,7 @@ let recentElements = data => {
   container.appendChild(names);
   container.appendChild(stats);
   container.appendChild(notes);
+  names.appendChild(toast);
   stats.appendChild(statsRow);
   statsRow.appendChild(rating);
   statsRow.appendChild(location);
