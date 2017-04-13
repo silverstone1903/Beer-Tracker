@@ -46,6 +46,7 @@ login.post('/new', function(req, res) {
   account.name = req.body.username;
   account.password = req.body.password;
   account.email = req.body.email;
+  account.friends = [];
 
   Client.connect(url, function(error, db) {
     if(error) {
