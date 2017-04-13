@@ -365,10 +365,14 @@ $("#account-button").click(function() {
 
   xhr.addEventListener('load', function() {
     if(xhr.responseText === 'Successful') {
-      $("#login-message").text('Account Created! Please sign in.');
+      $("#login-message")
+        .text('Account Created! Please sign in.')
+        .addClass('login-message-success');
     }
     if(xhr.responseText === 'Unsuccessful') {
-      $("#login-message").text('This email address has already been used. Please try again.');
+      $("#login-message")
+        .text('This email address has already been used. Please try again.')
+        .addClass('login-message-failed');
     }
     document.getElementById('account-form').reset();
   });

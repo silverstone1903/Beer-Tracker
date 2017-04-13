@@ -30,8 +30,9 @@
   cursor: pointer;
 }
 
+.login-message-failed { color: red; }
+.login-message-success { color: green;}
 .sign-input { margin-bottom: 10px; }
-
 .stat { display:inline-block; }
 
 #beer-image {
@@ -62,7 +63,6 @@
 #bar-chart { height: 500px; }
 #beer-search { width:430px !important; }
 #date-recent { border-left: 1px solid grey; }
-#login-message { color: red; }
 #no-account { margin-top: 20px }
 #pie-chart { height: 500px; }
 #rating-recent { border-right: 1px solid grey; }
