@@ -1,16 +1,22 @@
-.form-signin {
-  max-width: 330px;
-  margin: 0 auto;
+.accept {
+  margin-right: 10px;
+  color: green;
+  cursor: pointer;
 }
-
-.sign-input { margin-bottom: 10px; }
 
 .check-button {
   position: relative;
   left: 16px;
 }
 
-.stat { display:inline-block; }
+.friends-panel {
+  cursor: pointer;
+}
+
+.form-signin {
+  max-width: 330px;
+  margin: 0 auto;
+}
 
 .nav-link {
   position: relative;
@@ -24,25 +30,9 @@
   cursor: pointer;
 }
 
-.accept {
-  margin-right: 10px;
-  color: green;
-  cursor: pointer;
-}
+.sign-input { margin-bottom: 10px; }
 
-.friends-panel {
-  cursor: pointer;
-}
-
-#signin-img {
-  position: relative;
-  left: 2px;
-}
-
-#nav-logo {
-  position: relative;
-  top: 9px;
-}
+.stat { display:inline-block; }
 
 #beer-image {
   max-width: 100px;
@@ -54,16 +44,26 @@
   color: rgb(204, 0, 0);
 }
 
+#nav-logo {
+  position: relative;
+  top: 9px;
+}
+
 #recent-style {
   color: black;
   font-size: 15px;
 }
 
-#beer-search { width:430px !important; }
-#login-message { color: red; }
-#search-panel { background-color: rgb(242, 242, 242); }
-#pie-chart { height: 500px; }
+#signin-img {
+  position: relative;
+  left: 2px;
+}
+
 #bar-chart { height: 500px; }
+#beer-search { width:430px !important; }
 #date-recent { border-left: 1px solid grey; }
-#rating-recent { border-right: 1px solid grey; }
+#login-message { color: red; }
 #no-account { margin-top: 20px }
+#pie-chart { height: 500px; }
+#rating-recent { border-right: 1px solid grey; }
+#search-panel { background-color: rgb(242, 242, 242); }
