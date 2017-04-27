@@ -12,7 +12,6 @@ Frameworks:
 
 Libraries:
 * jQuery
-* Underscore.js
 * Bootstrap 3
 
 API's:
