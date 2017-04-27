@@ -11,38 +11,36 @@ let drawStyleChart = () => {
     success: function(json) {
       let data = new google.visualization.DataTable();
       let styles = [];
-      let unique = [];
       let chart = new google.visualization.BarChart(document.getElementById('bar-chart'));
       let options = {
         'title': 'Your Beers by Style',
         legend: {position: 'none'}
       };
 
-      data.addColumn('string', 'Style');
-      data.addColumn('number', 'Beers');
-
       //take only the styles from the json data and store them in array styles
       json.forEach(function(beer) {
         styles.push(beer.style);
       });
 
-      //in array styles, sort elements by name and how many times they occur
-      let sorted = _.countBy(styles, _.identity);
-      console.log(sorted);
+      //use reduce to mold data into an array of arrays. Each inner array contains 
+      //the style of beer and the count
+      const unique = styles.reduce((acc, val) => {
+        let added = false;
+        acc.forEach(arr => {
+          if (arr[0] === val) {
+            arr[1]++;
+            added = true;
+          }
+        })
+        if(!added) {
+          acc.push([val, 1]);
+        }
+        return acc;
+      },[]);
 
-      //turn data in var sorted into an acceptable format for google dataTable
-      for (var prop in sorted) {
-        let styleAndCount = {};
-        styleAndCount.style = prop;
-        styleAndCount.count = sorted[prop];
-        unique.push(styleAndCount);
-      }
-      console.log(unique);
-
-      for (let i = 0; i < unique.length; i++) {
-        data.addRow([unique[i].style, unique[i].count]);
-      }
-
+      data.addColumn('string', 'Style');
+      data.addColumn('number', 'Beers');
+      data.addRows(unique);
       chart.draw(data, options);
     }
   });
@@ -56,36 +54,33 @@ let drawBreweryChart = () => {
     success: function(json) {
       let data = new google.visualization.DataTable();
       let breweries = [];
-      let unique = [];
       let chart = new google.visualization.PieChart(document.getElementById('pie-chart'));
       let options = {
         title: 'Your Beers by Brewery',
         legend: {position: 'none'},
       }
 
-      data.addColumn('string', 'Brewery');
-      data.addColumn('number', 'Beers');
-
-      //take only the breweries from the json data and store them in array breweries
       json.forEach(function(beer) {
         breweries.push(beer.brewery);
       });
 
-      //in array breweries, sort elements by name and how many times they occur
-      let sorted = _.countBy(breweries, _.identity);
-
-      //turn data in var sorted into an acceptable format for google dataTable
-      for (let prop in sorted) {
-        let breweryCount = {};
-        breweryCount.brewery = prop;
-        breweryCount.count = sorted[prop];
-        unique.push(breweryCount);
-      }
-
-      for (let i = 0; i < unique.length; i++) {
-        data.addRow([unique[i].brewery, unique[i].count]);
-      }
-
+      const unique = breweries.reduce((acc, val) => {
+        let added = false;
+        acc.forEach(arr => {
+          if (arr[0] === val) {
+            arr[1]++;
+            added = true;
+          }
+        })
+        if(!added) {
+          acc.push([val, 1]);
+        }
+        return acc;
+      },[]);
+     
+      data.addColumn('string', 'Brewery');
+      data.addColumn('number', 'Beers');
+      data.addRows(unique);
       chart.draw(data, options);
     }
   });
