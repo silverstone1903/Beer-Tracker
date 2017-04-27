@@ -10,33 +10,29 @@ let drawChart = (specs) => {
     dataType: "json",
     success: function(json) {
       let data = new google.visualization.DataTable();
-      let bucket = [];
       let chart = specs.chart;
       let options = {
         'title': specs.title,
         legend: {position: 'none'}
       };
 
-      //take only the styles from the json data and store them in array styles
-      json.forEach(function(beer) {
-        bucket.push(beer[specs.type]);
-      });
-
-      //use reduce to mold data into an array of arrays. Each inner array contains 
-      //the style of beer and the count
-      const unique = bucket.reduce((acc, val) => {
-        let added = false;
-        acc.forEach(arr => {
-          if (arr[0] === val) {
-            arr[1]++;
-            added = true;
+      const unique = json
+        //Take the needed metric from the json data (style, brewery, etc...)
+        .map(beer => beer[specs.type])
+        //Mold the data to be an array populated by arrays that contain a string and a count
+        .reduce((acc, val) => {
+          let added = false;
+          acc.forEach(arr => {
+            if (arr[0] === val) {
+              arr[1]++;
+              added = true;
+            }
+          })
+          if(!added) {
+            acc.push([val, 1]);
           }
-        })
-        if(!added) {
-          acc.push([val, 1]);
-        }
-        return acc;
-      },[]);
+          return acc;
+        },[]);
 
       data.addColumn('string', specs.metric);
       data.addColumn('number', 'Beers');
