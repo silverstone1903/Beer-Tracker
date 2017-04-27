@@ -20,16 +20,6 @@ let drawStyleChart = () => {
 
       data.addColumn('string', 'Style');
       data.addColumn('number', 'Beers');
-      data.addColumn({ type: 'string', role: 'style'});
-
-      function randomColor() {
-        let letters = '0123456789ABCDEF'.split('');
-        let color = '#';
-        for (let i = 0; i < 6; i++ ) {
-          color += letters[Math.floor(Math.random() * 16)];
-        }
-        return color;
-      }
 
       //take only the styles from the json data and store them in array styles
       json.forEach(function(beer) {
@@ -38,6 +28,7 @@ let drawStyleChart = () => {
 
       //in array styles, sort elements by name and how many times they occur
       let sorted = _.countBy(styles, _.identity);
+      console.log(sorted);
 
       //turn data in var sorted into an acceptable format for google dataTable
       for (var prop in sorted) {
@@ -46,13 +37,13 @@ let drawStyleChart = () => {
         styleAndCount.count = sorted[prop];
         unique.push(styleAndCount);
       }
+      console.log(unique);
 
       for (let i = 0; i < unique.length; i++) {
-        data.addRow([unique[i].style, unique[i].count, randomColor()]);
+        data.addRow([unique[i].style, unique[i].count]);
       }
 
       chart.draw(data, options);
-
     }
   });
 }
@@ -74,16 +65,6 @@ let drawBreweryChart = () => {
 
       data.addColumn('string', 'Brewery');
       data.addColumn('number', 'Beers');
-      data.addColumn({ type: 'string', role: 'style'});
-
-      function randomColor() {
-        let letters = '0123456789ABCDEF'.split('');
-        let color = '#';
-        for (let i = 0; i < 6; i++ ) {
-          color += letters[Math.floor(Math.random() * 16)];
-        }
-        return color;
-      }
 
       //take only the breweries from the json data and store them in array breweries
       json.forEach(function(beer) {
@@ -102,11 +83,10 @@ let drawBreweryChart = () => {
       }
 
       for (let i = 0; i < unique.length; i++) {
-        data.addRow([unique[i].brewery, unique[i].count, randomColor()]);
+        data.addRow([unique[i].brewery, unique[i].count]);
       }
 
       chart.draw(data, options);
-
     }
   });
 }
