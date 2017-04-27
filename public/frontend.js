@@ -3,28 +3,28 @@ let userSession = [];
 //Chart functionality
 google.charts.load('current', {packages: ['corechart']});
 
-let drawStyleChart = () => {
+let drawChart = (specs) => {
   $.ajax({
     url: "beer/profile/" + userSession,
     method: "GET",
     dataType: "json",
     success: function(json) {
       let data = new google.visualization.DataTable();
-      let styles = [];
-      let chart = new google.visualization.BarChart(document.getElementById('bar-chart'));
+      let bucket = [];
+      let chart = specs.chart;
       let options = {
-        'title': 'Your Beers by Style',
+        'title': specs.title,
         legend: {position: 'none'}
       };
 
       //take only the styles from the json data and store them in array styles
       json.forEach(function(beer) {
-        styles.push(beer.style);
+        bucket.push(beer[specs.type]);
       });
 
       //use reduce to mold data into an array of arrays. Each inner array contains 
       //the style of beer and the count
-      const unique = styles.reduce((acc, val) => {
+      const unique = bucket.reduce((acc, val) => {
         let added = false;
         acc.forEach(arr => {
           if (arr[0] === val) {
@@ -38,47 +38,7 @@ let drawStyleChart = () => {
         return acc;
       },[]);
 
-      data.addColumn('string', 'Style');
-      data.addColumn('number', 'Beers');
-      data.addRows(unique);
-      chart.draw(data, options);
-    }
-  });
-}
-
-let drawBreweryChart = () => {
-  $.ajax({
-    url: "beer/profile/" + userSession,
-    method: "GET",
-    dataType: "json",
-    success: function(json) {
-      let data = new google.visualization.DataTable();
-      let breweries = [];
-      let chart = new google.visualization.PieChart(document.getElementById('pie-chart'));
-      let options = {
-        title: 'Your Beers by Brewery',
-        legend: {position: 'none'},
-      }
-
-      json.forEach(function(beer) {
-        breweries.push(beer.brewery);
-      });
-
-      const unique = breweries.reduce((acc, val) => {
-        let added = false;
-        acc.forEach(arr => {
-          if (arr[0] === val) {
-            arr[1]++;
-            added = true;
-          }
-        })
-        if(!added) {
-          acc.push([val, 1]);
-        }
-        return acc;
-      },[]);
-     
-      data.addColumn('string', 'Brewery');
+      data.addColumn('string', specs.metric);
       data.addColumn('number', 'Beers');
       data.addRows(unique);
       chart.draw(data, options);
@@ -411,8 +371,23 @@ $("#profile-link").click(function() {
 
 //Switches to stats page when clicked, draws graphs
 $("#stats-link").click(function() {
-  drawStyleChart();
-  drawBreweryChart();
+  const styleOptions = {
+    title: 'Your Beers by Style',
+    chart: new google.visualization.BarChart(document.getElementById('bar-chart')),
+    type: 'style',
+    metric: 'Style',
+  }
+
+  const breweryOptions = {
+    title: 'Your Beers by Brewery',
+    chart: new google.visualization.PieChart(document.getElementById('pie-chart')),
+    type: 'brewery',
+    metric: 'Brewery',
+  }
+
+  drawChart(styleOptions);
+  drawChart(breweryOptions);
+
   swap('user-stats', 'current');
 });
 
