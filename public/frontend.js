@@ -201,30 +201,25 @@ let submitSearch = () => {
   xhr.addEventListener('load', () => {
     let results = document.getElementById('results');
     let searchResults = JSON.parse(xhr.responseText);
-    let noBeerModal = document.createElement('a');
     let noBeer = document.createElement('button');
-
-    noBeerModal.setAttribute('data-target', '#addModal');
-    noBeerModal.setAttribute('data-toggle', 'modal');
 
     noBeer.setAttribute('type', 'button');
     noBeer.setAttribute('class', 'btn btn-warning btn-lg btn-block');
     noBeer.setAttribute('id', 'no-beer');
+    noBeer.setAttribute('data-target', '#addModal');
+    noBeer.setAttribute('data-toggle', 'modal');
     noBeer.textContent = "Don\'t see your beer?  Add it!";
 
     $("#results").empty();
 
     if (searchResults === null) {
-      results.appendChild(noBeerModal);
+      results.appendChild(noBeer);
     } else {
       searchResults.forEach(i => {
         results.appendChild(searchElements(i));
+        results.appendChild(noBeer);
       });
     }
-
-    results.appendChild(noBeerModal);
-    noBeerModal.appendChild(noBeer);
-
     swap('results', 'current');
   });
 }
