@@ -1,9 +1,11 @@
+require('dotenv').config();
+
 const express = require('express');
 const BreweryDb = require('brewerydb-node');
-const brewdb = new BreweryDb('e49034113c1766216d75b6cb58535cf7');
+const brewdb = new BreweryDb(process.env.BREW_DB);
 const bodyParser = require('body-parser');
 const Client = require('mongodb').MongoClient;
-const url = 'mongodb://m-rstewart:craft@ds153705.mlab.com:53705/m-rstewart-beer-tracker';
+const url = process.env.MLAB_KEY;
 const beer = express.Router();
 
 beer.use(bodyParser.json());

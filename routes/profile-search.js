@@ -1,6 +1,7 @@
+require('dotenv').config();
 const express = require('express');
 const Client = require('mongodb').MongoClient;
-const url = 'mongodb://m-rstewart:craft@ds153705.mlab.com:53705/m-rstewart-beer-tracker';
+const url = process.env.MLAB_KEY;
 const profile = express.Router();
 
 profile.get('/beer/:beer/:user', function(req, res) {

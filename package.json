@@ -21,6 +21,7 @@
     "body-parser": "^1.15.2",
     "brewerydb-node": "0.0.1",
     "chai": "^3.5.0",
+    "dotenv": "^4.0.0",
     "express": "^4.14.0",
     "gulp": "^3.9.1",
     "gulp-mocha": "^3.0.0",

@@ -1,7 +1,9 @@
+require('dotenv').config();
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const Client = require('mongodb').MongoClient;
-const url = 'mongodb://m-rstewart:craft@ds153705.mlab.com:53705/m-rstewart-beer-tracker';
+const url = process.env.MLAB_KEY;
 const login = express.Router();
 
 login.use(bodyParser.json());
