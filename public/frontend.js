@@ -276,6 +276,18 @@ let styleConfirmation = data => {
   return container;
 }
 
+function sendXHR(options) {
+  let xhr = new XMLHttpRequest();
+  xhr.open(options.method, options.url);
+  if (options.header) {
+    xhr.setRequestHeader(options.header, options.headerType);
+    xhr.send(JSON.stringify(options.payload));
+  } else {
+    xhr.send();
+  }
+  xhr.addEventListener('load', options.callback);
+}
+
 //--------------------------------------------------------------
 //Begin event listeners
 //--------------------------------------------------------------
@@ -291,23 +303,29 @@ $("#account-button").click(function() {
     email
   }
 
-  xhr.open('POST', '/login/new');
-  xhr.setRequestHeader('Content-type', 'application/json');
-  xhr.send(JSON.stringify(credentials));
+  let options = {
+    method: 'POST',
+    url: '/login/new',
+    header: 'Content-type',
+    headerType: 'application/json',
+    payload: credentials,
+    callback: onLoad
+  }
 
-  xhr.addEventListener('load', function() {
-    if (xhr.responseText === 'Successful') {
+  function onLoad() {
+    if (this.responseText === 'Successful') {
       $("#login-message")
         .text('Account Created! Please sign in.')
         .addClass('login-message-success');
     }
-    if (xhr.responseText === 'Unsuccessful') {
+    if (this.responseText === 'Unsuccessful') {
       $("#login-message")
         .text('This email address has already been used. Please try again.')
         .addClass('login-message-failed');
     }
     document.getElementById('account-form').reset();
-  });
+  }
+  sendXHR(options);
 });
 
 $("#signin-button").click(function() {
@@ -571,3 +589,5 @@ $("#profile-search-button").click(function() {
     }
   });
 });
+
+
