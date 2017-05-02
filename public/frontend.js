@@ -28,7 +28,7 @@ let drawChart = (specs) => {
               added = true;
             }
           })
-          if(!added) {
+          if (!added) {
             acc.push([val, 1]);
           }
           return acc;
@@ -57,7 +57,7 @@ let searchElements = data => {
 
   image.setAttribute('class', 'panel-body col-xs-2');
   image.setAttribute('id', 'beer-image');
-  if(data.labels) {
+  if (data.labels) {
     image.src = data.labels.icon;
   } else {
     image.src = '/images/icon-not-found.png';
@@ -69,20 +69,19 @@ let searchElements = data => {
   name.textContent = data.name + " -- " + data.breweries[0].name;
 
   //Accounts for missing styles in brewdb
-  if(data.style) {
+  if (data.style) {
     style.textContent = data.style.name;
   } else {
     style.textContent = 'Style Unknown';
   }
 
   //Accounts for missing abv's in brewdb
-  if(data.abv) {
+  if (data.abv) {
     abv.textContent = data.abv + "% ABV";
   } else {
     abv.textContent = 'ABV Unknown';
   }
 
-  //Allows check image to be used as button
   checkButton.setAttribute('type', 'button');
   checkButton.setAttribute('class', 'btn btn-warning pull-right check-button');
   checkButton.setAttribute('id', data.id);
@@ -90,6 +89,7 @@ let searchElements = data => {
   checkButton.setAttribute('data-toggle', 'modal');
   checkButton.textContent = 'Check-In';
 
+  //Build the whole element
   container.appendChild(image);
   container.appendChild(stats);
   container.appendChild(checkButton);
@@ -139,6 +139,7 @@ let recentElements = data => {
   notes.setAttribute('class', 'panel-footer');
   notes.textContent = data.notes;
 
+  //Build the whole element
   container.appendChild(names);
   container.appendChild(stats);
   container.appendChild(notes);
@@ -154,10 +155,11 @@ let recentElements = data => {
 //Toggles current page view
 let swap = next => {
   let currentView = document.getElementsByClassName('current');
+  let newView = document.getElementById(next);
+
   currentView[0].classList.add('hide');
   currentView[0].classList.remove('current');
 
-  let newView = document.getElementById(next);
   newView.classList.remove('hide');
   newView.classList.add('current');
 }
@@ -212,7 +214,7 @@ let submitSearch = () => {
 
     $("#results").empty();
 
-    if(searchResults === null) {
+    if (searchResults === null) {
       results.appendChild(noBeerModal);
     } else {
       searchResults.forEach(i => {
@@ -223,8 +225,8 @@ let submitSearch = () => {
     results.appendChild(noBeerModal);
     noBeerModal.appendChild(noBeer);
 
+    swap('results', 'current');
   });
-  swap('results', 'current');
 }
 
 let friendsList = data => {
@@ -244,7 +246,6 @@ let friendsList = data => {
   user.appendChild(glyph);
 
   return container;
-
 }
 
 let styleConfirmation = data => {
@@ -283,24 +284,24 @@ $("#account-button").click(function() {
   let username = $("#new-username").val();
   let password = $("#new-password").val();
   let email = $("#new-email").val();
-  let credentials = {};
   let xhr = new XMLHttpRequest();
-
-  credentials.username = username;
-  credentials.password = password;
-  credentials.email = email;
+  let credentials = {
+    username,
+    password,
+    email
+  }
 
   xhr.open('POST', '/login/new');
   xhr.setRequestHeader('Content-type', 'application/json');
   xhr.send(JSON.stringify(credentials));
 
   xhr.addEventListener('load', function() {
-    if(xhr.responseText === 'Successful') {
+    if (xhr.responseText === 'Successful') {
       $("#login-message")
         .text('Account Created! Please sign in.')
         .addClass('login-message-success');
     }
-    if(xhr.responseText === 'Unsuccessful') {
+    if (xhr.responseText === 'Unsuccessful') {
       $("#login-message")
         .text('This email address has already been used. Please try again.')
         .addClass('login-message-failed');
@@ -312,18 +313,18 @@ $("#account-button").click(function() {
 $("#signin-button").click(function() {
   let username = $("#username").val();
   let password = $("#password").val();
-  let credentials = {};
   let xhr = new XMLHttpRequest();
-
-  credentials.username = username;
-  credentials.password = password;
+  let credentials = {
+    username,
+    password
+  }
 
   xhr.open('POST', '/login');
   xhr.setRequestHeader('Content-type', 'application/json');
   xhr.send(JSON.stringify(credentials));
 
   xhr.addEventListener('load', function() {
-    if(xhr.responseText) {
+    if (xhr.responseText) {
       userSession.push(xhr.responseText);
       swap('opening-screen', 'current');
       $("#user").text(xhr.responseText);
@@ -337,6 +338,7 @@ $("#signin-button").click(function() {
 
 //Allow searches to be submitted with both clicking search button and pressing enter
 $("#submit").click(submitSearch);
+
 $('#search-form').keypress(function(e) {
   if (e.which == 13) {
     e.preventDefault();
@@ -361,8 +363,8 @@ $("#profile-link").click(function() {
     beers.forEach(i => {
       $("#recent-beers").append(recentElements(i));
     });
+    swap('profile', 'current');
   });
-  swap('profile', 'current');
 });
 
 //Switches to stats page when clicked, draws graphs
@@ -396,7 +398,7 @@ $("#results").click(function(e) {
 });
 
 $("#friends-list").click(function(e) {
-  if(e.target.getAttribute('class') === 'glyphicon glyphicon-remove pull-right') {
+  if (e.target.getAttribute('class') === 'glyphicon glyphicon-remove pull-right') {
     let id = e.target.getAttribute('id').toString().split('-');
     let friend = id[1];
     let xhr = new XMLHttpRequest();
@@ -405,18 +407,16 @@ $("#friends-list").click(function(e) {
     xhr.send();
 
     xhr.addEventListener('load', function() {
-      if(xhr.responseText) {
+      if (xhr.responseText) {
         $(e.target).parent().parent().remove();
-        console.log(friend + ' is no longer a friend');
       } else {
         console.log('Error');
       }
     });
   }
 
-  if(e.target.getAttribute('class') === 'panel-body friends-panel') {
+  if (e.target.getAttribute('class') === 'panel-body friends-panel') {
     let friend = e.target.getAttribute('id');
-    console.log(friend);
     let xhr = new XMLHttpRequest();
 
     xhr.open('GET', '/beer/profile/' + friend);
@@ -425,9 +425,8 @@ $("#friends-list").click(function(e) {
     xhr.addEventListener('load', function() {
       let beers = JSON.parse(xhr.responseText);
       $("#friends-checkins").empty();
-      console.log(beers);
 
-      if(beers.length === 0) {
+      if (beers.length === 0) {
         $("#friends-checkins").text(friend + " has no checkins");
       } else {
         beers.forEach(function(beer) {
@@ -449,7 +448,7 @@ $("#friends-button").click(function() {
     let potentialFriend = xhr.responseText;
     $("#friend-confirmation").empty();
 
-    if(potentialFriend !== 'User not found') {
+    if (potentialFriend !== 'User not found') {
       $("#friend-confirmation").append(styleConfirmation(potentialFriend));
     } else {
       $("#friend-confirmation").text('User not Found');
@@ -468,7 +467,7 @@ $("#friends-link").click(function() {
   xhr.send();
 
   xhr.addEventListener('load', function() {
-    if(xhr.responseText) {
+    if (xhr.responseText) {
       let friends = JSON.parse(xhr.responseText);
       friends.forEach(function(friend) {
         $("#friends-list").append(friendsList(friend));
@@ -481,7 +480,7 @@ $("#friends-link").click(function() {
 });
 
 $("#friend-confirmation").click(function(e) {
-  if(e.target.getAttribute('class') === 'glyphicon glyphicon-ok accept') {
+  if (e.target.getAttribute('class') === 'glyphicon glyphicon-ok accept') {
     let id = e.target.getAttribute('id').toString().split('-');
     let friend = id[0];
     let xhr = new XMLHttpRequest();
@@ -495,7 +494,7 @@ $("#friend-confirmation").click(function(e) {
     });
   }
 
-  if(e.target.getAttribute('class') === 'glyphicon glyphicon-remove remove') {
+  if (e.target.getAttribute('class') === 'glyphicon glyphicon-remove remove') {
     $("#friend-confirmation").empty();
   }
 });
@@ -551,9 +550,9 @@ $("#profile-search-button").click(function() {
   let search = $("#profile-search").val();
   let xhr = new XMLHttpRequest();
 
-  if(selector === 'Beer') {
+  if (selector === 'Beer') {
     xhr.open('GET', '/search/beer/' + search + '/' + userSession);
-  } else if(selector === 'Brewery') {
+  } else if (selector === 'Brewery') {
     xhr.open('GET', '/search/brewery/' + search + '/' + userSession);
   }
 
@@ -563,7 +562,7 @@ $("#profile-search-button").click(function() {
     let beers = JSON.parse(xhr.responseText);
     $("#recent-beers").empty();
 
-    if(beers.length === 0) {
+    if (beers.length === 0) {
       $("#recent-beers").append("<p>Not found. Please check your spelling/case and make sure you are using the right search selector</p>");
     } else {
       beers.forEach(i => {
