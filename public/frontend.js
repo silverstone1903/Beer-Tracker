@@ -412,7 +412,6 @@ $("#stats-link").click(function() {
 
   drawChart(styleOptions);
   drawChart(breweryOptions);
-
   swap('user-stats', 'current');
 });
 
@@ -466,13 +465,15 @@ $("#friends-list").click(function(e) {
 
 $("#friends-button").click(function() {
   let friend = $("#friends-search").val();
-  let xhr = new XMLHttpRequest();
 
-  xhr.open('GET', '/friends/search/' + friend);
-  xhr.send();
-
-  xhr.addEventListener('load', function() {
-    let potentialFriend = xhr.responseText;
+  let options = {
+    method: 'GET',
+    url: '/friends/search/' + friend,
+    callback: onLoad
+  }
+  
+  function onLoad() {
+    let potentialFriend = this.responseText;
     $("#friend-confirmation").empty();
 
     if (potentialFriend !== 'User not found') {
@@ -480,22 +481,21 @@ $("#friends-button").click(function() {
     } else {
       $("#friend-confirmation").text('User not Found');
     }
-  });
+  }
+  sendXHR(options);
 });
 
 $("#friends-link").click(function() {
   let xhr = new XMLHttpRequest();
+  let options = {
+    method: 'GET',
+    url: '/friends/' + userSession[0],
+    callback: onLoad
+  }
 
-  $("#friends-list").empty();
-  $("#friends-checkins").empty();
-  $("#friend-confirmation").empty();
-
-  xhr.open('GET', '/friends/' + userSession[0]);
-  xhr.send();
-
-  xhr.addEventListener('load', function() {
-    if (xhr.responseText) {
-      let friends = JSON.parse(xhr.responseText);
+  function onLoad() {
+    if (this.responseText) {
+      let friends = JSON.parse(this.responseText);
       friends.forEach(function(friend) {
         $("#friends-list").append(friendsList(friend));
       });
@@ -503,24 +503,31 @@ $("#friends-link").click(function() {
       $("#friends-list").text("No friends found");
     }
     swap('user-friends', 'current');
-  });
+  }
+
+  $("#friends-list").empty();
+  $("#friends-checkins").empty();
+  $("#friend-confirmation").empty();
+
+  sendXHR(options);
 });
 
 $("#friend-confirmation").click(function(e) {
   if (e.target.getAttribute('class') === 'glyphicon glyphicon-ok accept') {
     let id = e.target.getAttribute('id').toString().split('-');
     let friend = id[0];
-    let xhr = new XMLHttpRequest();
+    let options = {
+      method: 'POST',
+      url: '/friends/' + userSession[0] + '/' + friend,
+      callback: onLoad
+    }
 
-    xhr.open('POST', '/friends/' + userSession[0] + '/' + friend);
-    xhr.send();
-
-    xhr.addEventListener('load', function() {
+    function onLoad() {
       $("#friends-list").append(friendsList(friend));
       $("#friend-confirmation").empty();
-    });
+    }
+    sendXHR(options);
   }
-
   if (e.target.getAttribute('class') === 'glyphicon glyphicon-remove remove') {
     $("#friend-confirmation").empty();
   }
@@ -528,48 +535,72 @@ $("#friend-confirmation").click(function(e) {
 
 //Sends the beer ID and user input to the checkin route
 var submitCheckIn = document.getElementsByClassName('beer-submit')[0];
-submitCheckIn.addEventListener('click', function(e) {
-  let id = submitCheckIn.getAttribute('id');
-  let checkIn = {};
-  let xhr = new XMLHttpRequest();
+submitCheckIn.addEventListener('click', function() {
+  const user = userSession[0];
+  const id = submitCheckIn.getAttribute('id');
+  const notes = document.getElementById('tasting-notes').value;
+  const location = document.getElementById('location').value;
+  const date = document.getElementById('date').value;
+  const rating = document.getElementById('rating').value;
+  const checkIn = {
+    user,
+    id,
+    notes,
+    location,
+    date,
+    rating
+  }
 
-  checkIn.user = userSession[0];
-  checkIn.id = submitCheckIn.getAttribute('id');
-  checkIn.notes = document.getElementById('tasting-notes').value;
-  checkIn.location = document.getElementById('location').value;
-  checkIn.date = document.getElementById('date').value;
-  checkIn.rating = document.getElementById('rating').value;
+  let options = {
+    method: 'POST',
+    url: '/beer/checkin/' + id,
+    header: 'Content-type',
+    headerType: 'application/json',
+    payload: checkIn,
+    callback: onLoad
+  }
 
-  xhr.open('POST', '/beer/checkin/' + id);
-  xhr.setRequestHeader('Content-type', 'application/json');
-  xhr.send(JSON.stringify(checkIn));
-
-  xhr.addEventListener('load', function() {
+  function onLoad() {
     document.getElementById('checkin-form').reset();
-  });
+  }
+  sendXHR(options);
 });
 
 $("#addBeer").click(function() {
-  let addedBeer = {};
-  let xhr = new XMLHttpRequest();
+  const user = userSession[0];
+  const name = document.getElementById('addName').value;
+  const brewery = document.getElementById('addBrewery').value;
+  const style = document.getElementById('addStyle').value;
+  const id = Math.floor(Math.random() * 10001);
+  const notes = document.getElementById('addNotes').value;
+  const location = document.getElementById('addLocation').value;
+  const date = document.getElementById('addDate').value;
+  const rating = document.getElementById('addRating').value;
+  const addedBeer = {
+    user,
+    name,
+    brewery,
+    style,
+    id,
+    notes,
+    location,
+    date,
+    rating
+  }
 
-  addedBeer.user = userSession[0];
-  addedBeer.name = document.getElementById('addName').value;
-  addedBeer.brewery = document.getElementById('addBrewery').value;
-  addedBeer.style = document.getElementById('addStyle').value;
-  addedBeer.id = Math.floor(Math.random() * 10001);
-  addedBeer.notes = document.getElementById('addNotes').value;
-  addedBeer.location = document.getElementById('addLocation').value;
-  addedBeer.date = document.getElementById('addDate').value;
-  addedBeer.rating = document.getElementById('addRating').value;
+  const options = {
+    method: 'POST',
+    url: '/beer/add',
+    header: 'Content-type',
+    headerType: 'application/json',
+    payload: addedBeer,
+    callback: onLoad
+  }
 
-  xhr.open('POST', '/beer/add');
-  xhr.setRequestHeader('Content-type', 'application/json');
-  xhr.send(JSON.stringify(addedBeer));
-
-  xhr.addEventListener('load', function() {
+  function onLoad() {
     document.getElementById('add-form').reset();
-  });
+  }
+  sendXHR(options);
 });
 
 $("#profile-search-button").click(function() {
