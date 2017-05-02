@@ -337,21 +337,27 @@ $("#signin-button").click(function() {
     password
   }
 
-  xhr.open('POST', '/login');
-  xhr.setRequestHeader('Content-type', 'application/json');
-  xhr.send(JSON.stringify(credentials));
+  let options = {
+    method: 'POST',
+    url: '/login',
+    header: 'Content-type',
+    headerType: 'application/json',
+    payload: credentials,
+    callback: onLoad
+  }
 
-  xhr.addEventListener('load', function() {
-    if (xhr.responseText) {
-      userSession.push(xhr.responseText);
+  function onLoad() {
+    if (this.responseText) {
+      userSession.push(this.responseText);
       swap('opening-screen', 'current');
-      $("#user").text(xhr.responseText);
+      $("#user").text(this.responseText);
       $("#top").removeClass('hide');
     } else {
       swap('login', 'current');
       $("#login-message").text('Login Unsuccessful. Please try again');
     }
-  });
+  }
+  sendXHR(options);
 });
 
 //Allow searches to be submitted with both clicking search button and pressing enter
@@ -366,12 +372,14 @@ $('#search-form').keypress(function(e) {
 
 //Switches view to profile page when profile link is clicked
 $("#profile-link").click(function() {
-  let xhr = new XMLHttpRequest();
-  xhr.open('GET', '/beer/profile/' + userSession[0]);
-  xhr.send();
+  let options = {
+    method: 'GET',
+    url: '/beer/profile/' + userSession[0],
+    callback: onLoad
+  }
 
-  xhr.addEventListener('load', function() {
-    let beers = JSON.parse(xhr.responseText);
+  function onLoad() {
+    let beers = JSON.parse(this.responseText);
 
     $("#recent-beers").empty();
     totalCount(beers);
@@ -382,7 +390,8 @@ $("#profile-link").click(function() {
       $("#recent-beers").append(recentElements(i));
     });
     swap('profile', 'current');
-  });
+  }
+  sendXHR(options);
 });
 
 //Switches to stats page when clicked, draws graphs
