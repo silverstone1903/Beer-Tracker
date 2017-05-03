@@ -271,6 +271,7 @@ let styleConfirmation = data => {
   return container;
 }
 
+//expects an object that it will use to build the xhr
 function sendXHR(options) {
   let xhr = new XMLHttpRequest();
   xhr.open(options.method, options.url);
@@ -419,32 +420,34 @@ $("#results").click(function(e) {
 });
 
 $("#friends-list").click(function(e) {
-  if (e.target.getAttribute('class') === 'glyphicon glyphicon-remove pull-right') {
+  if (e.target.classList.contains('remove')) {
     let id = e.target.getAttribute('id').toString().split('-');
     let friend = id[1];
-    let xhr = new XMLHttpRequest();
+    let options = {
+      method: 'DELETE',
+      url: '/friends/' + userSession[0] + '/' + friend,
+      callback: onLoad
+    }
 
-    xhr.open('DELETE', '/friends/' + userSession[0] + '/' + friend);
-    xhr.send();
-
-    xhr.addEventListener('load', function() {
-      if (xhr.responseText) {
+    function onLoad() {
+      if (this.responseText) {
         $(e.target).parent().parent().remove();
-      } else {
-        console.log('Error');
+        $("#friends-checkins").empty();
       }
-    });
+    }
+    sendXHR(options);
   }
 
-  if (e.target.getAttribute('class') === 'panel-body friends-panel') {
+  if (e.target.classList.contains('friends-panel')) {
     let friend = e.target.getAttribute('id');
-    let xhr = new XMLHttpRequest();
+    let options = {
+      method: 'GET',
+      url: '/beer/profile/' + friend,
+      callback: onLoad
+    }
 
-    xhr.open('GET', '/beer/profile/' + friend);
-    xhr.send();
-
-    xhr.addEventListener('load', function() {
-      let beers = JSON.parse(xhr.responseText);
+    function onLoad() {
+      let beers = JSON.parse(this.responseText);
       $("#friends-checkins").empty();
 
       if (beers.length === 0) {
@@ -454,7 +457,8 @@ $("#friends-list").click(function(e) {
           $("#friends-checkins").append(recentElements(beer));
         });
       }
-    });
+    }
+    sendXHR(options);
   }
 });
 
