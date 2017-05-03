@@ -1,8 +1,10 @@
+//Stores the active session when a user logs in
 let userSession = [];
 
 //Chart functionality
 google.charts.load('current', {packages: ['corechart']});
 
+//Takes in a specs object that specifies the options that will be used to draw the graph
 let drawChart = (specs) => {
   $.ajax({
     url: "beer/profile/" + userSession,
@@ -193,14 +195,15 @@ let uniqueCount = data => {
 //on the search results page
 let submitSearch = () => {
   let beerSearch = document.getElementById('beer-search').value;
-  let xhr = new XMLHttpRequest();
+  let options = {
+    method: 'GET',
+    url: '/beer/search/:' + beerSearch,
+    callback: onLoad
+  }
 
-  xhr.open('GET', '/beer/search/:' + beerSearch);
-  xhr.send();
-
-  xhr.addEventListener('load', () => {
+  function onLoad() {
     let results = document.getElementById('results');
-    let searchResults = JSON.parse(xhr.responseText);
+    let searchResults = JSON.parse(this.responseText);
     let noBeer = document.createElement('button');
 
     noBeer.setAttribute('type', 'button');
@@ -221,7 +224,8 @@ let submitSearch = () => {
       });
     }
     swap('results', 'current');
-  });
+  }
+  sendXHR(options);
 }
 
 let friendsList = data => {
@@ -413,7 +417,7 @@ $("#stats-link").click(function() {
 
 //Passes the ID of that particular beer to the modal's submit button
 $("#results").click(function(e) {
-  if (e.target.getAttribute('class') == 'btn btn-warning pull-right check-button'){
+  if (e.target.classList.contains('check-button')){
     let modalSubmit = document.getElementsByClassName('beer-submit')[0];
     modalSubmit.setAttribute('id', e.target.getAttribute('id'));
   }
